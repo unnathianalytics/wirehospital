@@ -218,3 +218,12 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 });
 // TABLEOPTIONS END
+
+document.addEventListener('livewire:navigated', () => {
+    if (window.setTheme && window.getPreferredTheme) {
+        window.setTheme(window.getPreferredTheme());
+    }
+    if (window.showActiveTheme) {
+        window.showActiveTheme(window.getPreferredTheme());
+    }
+});
