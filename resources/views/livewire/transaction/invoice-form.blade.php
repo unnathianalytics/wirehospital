@@ -19,7 +19,7 @@
                 <div class="row card-body">
                     <div class="col-lg-1 mb-3">
                         <label for="voucher_series_id" class="form-label">Series</label>
-                        <select wire:model.live="invoiceData.voucher_series_id" class="form-control form-control-sm"
+                        <select wire:model.live="invoiceData.voucher_series_id" class="form-select form-select-sm"
                             id="voucher_series_id">
                             <option value="">Select</option>
                             @foreach ($voucherSeries as $series)
@@ -29,13 +29,13 @@
                     </div>
                     <div class="col-lg-2 mb-3">
                         <label for="invoice_date" class="form-label">Date</label>
-                        <input type="text" id="invoice_date" class="focusable form-control date-iso"
+                        <input type="text" id="invoice_date" class="focusable form-select form-select-sm date-iso"
                             wire:model.live="invoiceData.invoice_date" placeholder="yyyy-mm-dd"
                             data-max='{{ date('Y-m-d') }}' maxlength="10">
                     </div>
                     <div class="col-lg-2 mb-3">
                         <label for="invoice_number" class="form-label">Invoice Number</label>
-                        <input type="text" id="invoice_number" class="form-control focusable"
+                        <input type="text" id="invoice_number" class="form-select form-select-sm focusable"
                             wire:model="invoiceData.invoice_number">
                     </div>
                     <div class="col-lg-2 mb-3">
@@ -80,8 +80,8 @@
                                     <th>MRP</th>
                                     <th>Price (Rs.)</th>
                                     <th>Dis%</th>
-                                    <th>Dis (Total)</th>
-                                    <th>GST% (C+S+Cess)</th>
+                                    <th class="item-id-input">Dis (Total)</th>
+                                    <th class="item-id-input">GST% (C+S+Cess)</th>
                                     <th style="width: 10%">Amount (Rs.)</th>
                                     <th style="width: 5%;">Remove</th>
                                 </tr>
@@ -92,7 +92,8 @@
                                         <td>{{ $index + 1 }}</td>
                                         <td style="width: 20%">
                                             <div wire:ignore>
-                                                <input type="text" class="form-control item-autocomplete"
+                                                <input type="text"
+                                                    class="form-select form-select-sm item-autocomplete"
                                                     data-index="{{ $index }}"
                                                     id="item_name_{{ $index }}"
                                                     value="{{ $item['item_name'] ?? '' }}"
@@ -104,12 +105,12 @@
                                         </td>
                                         <td style="width: 5%">
                                             <input type="number" style="text-align:right" step="0.01"
-                                                placeholder="Qty" class="form-control focusable"
+                                                placeholder="Qty" class="form-select form-select-sm focusable"
                                                 id="quantity_{{ $index }}"
                                                 wire:model.lazy="invoiceItems.{{ $index }}.quantity">
                                         </td>
                                         <td style="width: 5%">
-                                            <select class="form-control focusable"
+                                            <select class="form-select form-select-sm focusable"
                                                 wire:model="invoiceItems.{{ $index }}.uom_id">
                                                 <option value=""></option>
                                                 @if (!empty($itemUomOptions[$index]))
@@ -122,32 +123,35 @@
                                         </td>
                                         <td>
                                             <input type="number" style="text-align:right" step="0.01"
-                                                class="form-control focusable"
+                                                class="form-select form-select-sm focusable"
                                                 wire:model.lazy="invoiceItems.{{ $index }}.max_retail_price">
                                         </td>
                                         <td>
                                             <input type="number" style="text-align:right" step="0.01"
-                                                placeholder="Price" class="form-control focusable"
+                                                placeholder="Price" class="form-select form-select-sm focusable"
                                                 wire:model.lazy="invoiceItems.{{ $index }}.price">
                                         </td>
                                         <td>
                                             <input type="number" style="text-align:right" step="0.01"
-                                                placeholder="Dis%" class="form-control focusable"
+                                                placeholder="Dis%" class="form-select form-select-sm focusable"
                                                 wire:model.lazy="invoiceItems.{{ $index }}.discount_pct">
                                         </td>
-                                        <td>
+                                        <td class="item-id-input">
                                             <input type="number" style="text-align:right" step="0.01"
-                                                placeholder="DisAmt" class="form-control focusable"
+                                                placeholder="DisAmt"
+                                                class="form-select form-select-sm item-id-input focusable"
                                                 wire:model.lazy="invoiceItems.{{ $index }}.discount_amt">
                                         </td>
-                                        <td>
-                                            <input type="text" style="text-align:right" placeholder="GST%"
+                                        <td class="item-id-input">
+                                            <input type="text" style="text-align:right" class="item-id-input"
+                                                placeholder="GST%"
                                                 wire:model.lazy="invoiceItems.{{ $index }}.gst_percent"
                                                 disabled readonly>
                                         </td>
                                         <td>
                                             <input type="number" style="text-align:right" step="0.01"
-                                                placeholder="Amount" class="form-control focusable amount-input"
+                                                placeholder="Amount"
+                                                class="form-select form-select-sm focusable amount-input"
                                                 id="amount_{{ $index }}"
                                                 wire:model.lazy="invoiceItems.{{ $index }}.item_amount">
                                         </td>
@@ -207,8 +211,7 @@
                                         @foreach ($sundries as $index => $sundry)
                                             <tr wire:key="sundry-{{ $index }}">
                                                 <td>
-                                                    <input type="text" readonly
-                                                        class="form-control form-control-sm"
+                                                    <input type="text" readonly class="form-select form-select-sm"
                                                         wire:model="sundries.{{ $index }}.amount_adjustment"
                                                         placeholder="Type">
                                                 </td>
@@ -229,7 +232,7 @@
                                                     <input type="number" style="text-align:right"
                                                         placeholder="Amount"
                                                         id="sundry-{{ $index }}-sundry_amount" step="0.01"
-                                                        class="form-control form-control-sm"
+                                                        class="form-select form-select-sm"
                                                         wire:model.lazy="sundries.{{ $index }}.sundry_amount">
                                                 </td>
                                                 <td>

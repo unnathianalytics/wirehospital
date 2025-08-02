@@ -1,30 +1,25 @@
-    @push('body-styles')
-        <style>
-            body {
-                background-color: {{ $bg_color ?? '#FFFFFF' }};
-            }
-        </style>
-    @endpush
     <div class="container">
         <form wire:submit.prevent>
             <div class="row mb-3">
                 <div class="col">
                     <label for="">From</label>
-                    <input type="text" wire:model.defer="fromDate" class="form-control date-iso" placeholder="From Date">
+                    <input type="text" wire:model.defer="fromDate" class="form-select form-select-sm date-iso"
+                        placeholder="From Date">
                 </div>
                 <div class="col">
                     <label for="">To</label>
-                    <input type="text" wire:model.defer="toDate" class="form-control date-iso" placeholder="To Date">
+                    <input type="text" wire:model.defer="toDate" class="form-select form-select-sm date-iso"
+                        placeholder="To Date">
                 </div>
                 <div class="col">
                     <label for="">Show Invoice Items</label>
-                    <select wire:model.defer="showItems" class="form-select">
+                    <select wire:model.defer="showItems" class="form-select form-select-sm">
                         <option value="no">No</option>
                         <option value="yes">Yes</option>
                     </select>
                 </div>
                 <div class="col">
-                    <button type="submit" class="btn btn-primary" wire:click="$refresh">Filter</button>
+                    <button type="submit" class="btn btn-sm btn-primary" wire:click="$refresh">Filter</button>
                 </div>
             </div>
         </form>
@@ -32,8 +27,9 @@
             <div class="col-lg-12">
                 <div class="table-responsive">
                     <span class="h5">List of {{ $type->name }}</span> <input type="text" id="searchInput"
-                        autofocus placeholder="Search..." onkeyup="filterTable()" value=""> <a
-                        class="btn btn-sm btn-primary" href="{{ route('invoice_create', [$type->slug]) }}">Add
+                        autofocus placeholder="Search..." onkeyup="filterTable()" value=""
+                        class="form-select form-select-sm"> <a class="btn btn-sm btn-primary"
+                        href="{{ route('invoice_create', [$type->slug]) }}">Add
                         {{ $type->name }}</a>
                     <table class="table table-bordered table-sm mt-3" id="dataTable">
                         <thead>

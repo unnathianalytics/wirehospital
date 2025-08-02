@@ -27,3 +27,26 @@
 .dropdown-item {
     padding: 5px 10px !important;
 }
+
+.form-control-sm,
+.form-select-sm,
+.btn-sm {
+    padding: .2rem .5rem !important;
+}
+
+.table-sm>:not(caption)>*>* {
+    padding: .0rem 0rem;
+}
+
+[data-bs-theme="dark"] .form-select {
+    --bs-form-select-bg-img: url();
+}
+
+[data-bs-theme="light"] .form-select {
+    --bs-form-select-bg-img: url();
+}
+
+.table-sm thead tr th {
+    background-color: #2a6d6e;
+    color: #fff;
+}

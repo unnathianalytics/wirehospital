@@ -11,7 +11,6 @@ class InvoiceIndex extends Component
     public $fromDate;
     public $toDate;
     public $showItems;
-    public string $bg_color;
     public $invoice_type_id;
     public $financialDates;
     public function mount()
@@ -21,7 +20,6 @@ class InvoiceIndex extends Component
         $this->fromDate = $this->financialDates['from_date'];
         $this->toDate = $this->financialDates['to_date'];
         $this->showItems = 'no';
-        $this->bg_color = InvoiceType::findOrFail($this->invoice_type_id)->bg_color;
     }
 
     public function render()
