@@ -1,31 +1,33 @@
     <div class="container">
-        <form wire:submit.prevent>
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="">From</label>
-                    <input type="text" wire:model.defer="fromDate" class="form-select form-select-sm date-iso"
-                        placeholder="From Date">
+        <div class="card card-body p-2 mb-2">
+            <form wire:submit.prevent>
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="">From</label>
+                        <input type="text" wire:model.defer="fromDate" class="form-select form-select-sm date-iso"
+                            placeholder="From Date">
+                    </div>
+                    <div class="col">
+                        <label for="">To</label>
+                        <input type="text" wire:model.defer="toDate" class="form-select form-select-sm date-iso"
+                            placeholder="To Date">
+                    </div>
+                    <div class="col">
+                        <label for="">Show Invoice Items</label>
+                        <select wire:model.defer="showItems" class="form-select form-select-sm">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-sm btn-primary" wire:click="$refresh">Filter</button>
+                    </div>
                 </div>
-                <div class="col">
-                    <label for="">To</label>
-                    <input type="text" wire:model.defer="toDate" class="form-select form-select-sm date-iso"
-                        placeholder="To Date">
-                </div>
-                <div class="col">
-                    <label for="">Show Invoice Items</label>
-                    <select wire:model.defer="showItems" class="form-select form-select-sm">
-                        <option value="no">No</option>
-                        <option value="yes">Yes</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <button type="submit" class="btn btn-sm btn-primary" wire:click="$refresh">Filter</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="table-responsive">
+                <div class="card card-body p-2 table-responsive">
                     <span class="h5">List of {{ $type->name }}</span> <input type="text" id="searchInput"
                         autofocus placeholder="Search..." onkeyup="filterTable()" value=""
                         class="form-select form-select-sm"> <a class="btn btn-sm btn-primary"
