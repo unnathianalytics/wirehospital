@@ -1,0 +1,60 @@
+Based on your responses and my analysis of the requirements and code, I have the following additional questions to ensure all details are clear before implementation:
+
+1. **SN Deletion Constraints**:
+   - You requested clarification on SN deletion. To confirm: Should SNs be deletable only if they have **never** been used in an Outward transaction (i.e., only SNs created via Purchase/Production and not yet used in Sale, Material Issued, or Purchase Return)? Or should SNs that were used in an Outward transaction but later returned (via Sale Return or Material Received) also be deletable? For example:
+     - SN created via Purchase, never used → Can be deleted.
+     - SN used in Sale, still active → Cannot be deleted.
+     - SN used in Sale, returned via Sale Return → Can it be deleted?
+   - Should SN deletion be restricted in the Item add/edit form, or do you plan to handle SN deletion in a separate interface?
+
+2. **Multiple SNs for Quantity > 1**:
+   - For Purchase and Production, you confirmed that SNs are entered manually even for multiple quantities. How should the UI handle this? For example, if `quantity` = 3, should the system:
+     - Display three separate text inputs for SNs in the same table cell?
+     - Use a single text input where users enter SNs separated by a delimiter (e.g., commas)?
+     - Open a modal or dynamic form to input multiple SNs?
+   - Should the system validate that each SN is unique (not already in the `serial_numbers` table) during input for Purchase/Production?
+
+3. **SN Dropdown for Outward and Return Transactions**:
+   - For Sale, Material Issued, and Purchase Return, the dropdown should show Available SNs for the selected `item_id`. Should the dropdown also include the SN’s `description` (e.g., as part of the option label, like “SN123 - Desc”)?
+   - For Sale Return and Material Received, you specified that the dropdown should show only Used SNs (not Available ones). Should the system validate that the selected SN was previously used in an Outward transaction for the same `item_id`?
+   - If no Used SNs exist for an item in Sale Return or Material Received, should the dropdown be empty, or should an error message be shown?
+
+4. **SN Integration with Item Add/Edit Form**:
+   - You mentioned that for items with `has_serial_number = true`, SNs should be added in the Item add/edit form if `op_stock_qty` is set. Can you clarify:
+     - Is there an existing Item add/edit form (Blade and Livewire component) that I should consider for this integration, or should I assume a new form needs to be created?
+     - Should the form allow adding multiple SNs equal to the `op_stock_qty` (e.g., if `op_stock_qty` = 5, provide 5 text inputs for SNs)?
+     - Should SNs added in the Item form be immediately marked as Available?
+
+5. **SN and Stock Updates**:
+   - When an Outward `InvoiceItem` is deleted (via `removeItemRow`), you confirmed that SNs should be marked as Available and trigger a stock update. Should this update increment the `op_stock_qty` in the `items` table, or is there a separate stock table/model (e.g., for tracking stock movements)?
+   - For Sale Return and Material Received, when SNs are returned and marked as Available, should this also increment the `op_stock_qty`?
+
+6. **Database Schema for `serial_numbers`**:
+   - Based on your requirements, I propose the following schema for the `serial_numbers` table:
+     ```php
+     Schema::create('serial_numbers', function (Blueprint $table) {
+         $table->id();
+         $table->foreignId('item_id')->constrained('items')->cascadeOnDelete();
+         $table->string('serial_number')->unique();
+         $table->string('description')->nullable();
+         $table->foreignId('invoice_item_id')->nullable()->constrained('invoice_items')->nullOnDelete();
+         $table->timestamps();
+     });
+     ```
+     - The `invoice_item_id` field links an SN to an active Outward `InvoiceItem` (for Used status) or is `null` for Available SNs. Does this align with your expectation for dynamic status tracking?
+     - Should the `serial_number` field have a specific length limit (e.g., `string('serial_number', 100)`), or is a generic `string` sufficient?
+
+7. **Validation in `InvoiceForm` Component**:
+   - For `InvoiceItems` with `has_serial_number = true`, should the validation rule ensure that the number of SNs matches the `quantity` exactly, and should this be enforced in the `save` method of `InvoiceForm.php`?
+   - Should duplicate SNs (e.g., entering an SN already in the `serial_numbers` table for Purchase/Production) trigger a specific error message in the existing error block?
+
+8. **UI Behavior for Non-SN Items**:
+   - For items where `has_serial_number = false`, you confirmed the SN cell should be empty. Should it be a blank `<td></td>` in the table, or should it display a placeholder like “N/A” to indicate SNs are not applicable?
+
+9. **InvoiceType Logic**:
+   - For Sale Quotation and Purchase Quotation, you confirmed the SN field should be hidden. Should this be controlled by checking the `InvoiceType`’s `in_out` field (e.g., `none`) in the Blade view, or should it be based on a specific list of slugs (`sale-quotation`, `purchase-quotation`)?
+   - For Sale Return and Material Received, should the system prevent selecting an SN that is already Available (i.e., not linked to an Outward `InvoiceItem`)?
+
+10. **SN and Multi-UoM Constraint**:
+    - The `items` table has a `has_multi_uom` field, and you noted that `has_multi_uom` and `has_serial_number` cannot both be `true`. Should this be enforced in the Item add/edit form, and should the `InvoiceForm` component validate that SNs are only used for items where `has_multi_uom = false`?
+
