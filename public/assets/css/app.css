@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
 :root {
     --font-family: 'Inter', Arial;
     --primary-bg: #2a6d6e;
@@ -21,8 +19,11 @@
     --dark-mode-focus-bg: #5a6268;
     --breadcrumb-bg: #f5f5f5;
     --dark-mode-breadcrumb-bg: #4a4a4a;
+
+    --bs-dropdown-item-padding-y: 5px;
+    --bs-dropdown-item-padding-x: 10px
 }
 
-body {
-    font-family: var(--font-family);
+.dropdown-item {
+    padding: 5px 10px !important;
 }

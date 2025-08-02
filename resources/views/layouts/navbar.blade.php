@@ -13,7 +13,7 @@
                 <path fill="currentColor"
                     d="M3.235 7.982 11 12.571v8.988a2.339 2.339 0 0 1-.25-.126l-6.294-3.634a2.502 2.502 0 0 1-1.25-2.165V8.366c0-.13.01-.258.03-.384h-.001Z"
                     class="duoicon-secondary-layer" opacity=".3"></path>
-            </svg>Dashbrd</a>
+            </svg>WireHospital</a>
 
         <!-- User -->
         <div class="d-flex ms-auto d-xl-none">
@@ -23,7 +23,7 @@
                     <span class="avatar avatar-sm avatar-status avatar-status-success me-3">
                         <img class="avatar-img" src="./assets/img/photos/photo-6.jpg" alt="...">
                     </span>
-                    <span class="d-none d-xl-block">John Williams</span>
+                    <span class="d-none d-xl-block">{{ Auth::user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="./account/account.html">Account</a></li>
@@ -162,9 +162,25 @@
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         data-bs-auto-close="outside" aria-expanded="false">
-                        Pages
+                        Transactions
                     </a>
                     <ul class="dropdown-menu">
+                        @foreach (\App\Models\InvoiceType::orderBy('menu_order')->get() as $iType)
+                            <li class="dropend">
+                                <a class="dropdown-item d-flex" href="#" role="button"
+                                    data-bs-toggle="dropdown" data-bs-auto-close="outside"
+                                    aria-expanded="false">{{ $iType->name }} <span
+                                        class="material-symbols-outlined ms-auto">chevron_right</span></a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item " wire:navigate
+                                        href="{{ route('invoice_create', ['invoiceType' => $iType->slug]) }}">Add
+                                        {{ $iType->name }}</a></a>
+                                    <a class="dropdown-item " wire:navigate
+                                        href="{{ route('invoice_index', ['invoiceType' => $iType->slug]) }}">List
+                                        {{ $iType->name }}</a>
+                                </div>
+                            </li>
+                        @endforeach
                         <li class="dropend">
                             <a class="dropdown-item d-flex" href="#" role="button" data-bs-toggle="dropdown"
                                 data-bs-auto-close="outside" aria-expanded="false">
@@ -174,74 +190,6 @@
                                 <a class="dropdown-item " href="./customers/customers.html">Customers</a>
                                 <a class="dropdown-item " href="./customers/customer.html">Customer details</a>
                                 <a class="dropdown-item " href="./customers/customer-new.html">New customer</a>
-                            </div>
-                        </li>
-                        <li class="dropend">
-                            <a class="dropdown-item d-flex " href="#" role="button" data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside" aria-expanded="false">
-                                Projects <span class="material-symbols-outlined ms-auto">chevron_right</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item " href="./projects/projects.html">Projects</a>
-                                <a class="dropdown-item " href="./projects/project.html">Project overview</a>
-                                <a class="dropdown-item " href="./projects/project-new.html">New project</a>
-                            </div>
-                        </li>
-                        <li class="dropend">
-                            <a class="dropdown-item d-flex " href="#" role="button" data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside" aria-expanded="false">
-                                Account <span class="material-symbols-outlined ms-auto">chevron_right</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item " href="./account/account.html">Account overview</a>
-                                <a class="dropdown-item " href="./account/account-settings.html">Account settings</a>
-                            </div>
-                        </li>
-                        <li class="dropend">
-                            <a class="dropdown-item d-flex " href="#" role="button" data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside" aria-expanded="false">
-                                E-commerce <span class="material-symbols-outlined ms-auto">chevron_right</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item " href="./ecommerce/products.html">Products</a>
-                                <a class="dropdown-item " href="./ecommerce/orders.html">Orders</a>
-                                <a class="dropdown-item " href="./ecommerce/invoice.html">Invoice</a>
-                                <a class="dropdown-item " href="./ecommerce/pricing.html">Pricing</a>
-                            </div>
-                        </li>
-                        <li class="dropend">
-                            <a class="dropdown-item d-flex " href="#" role="button" data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside" aria-expanded="false">
-                                Posts <span class="material-symbols-outlined ms-auto">chevron_right</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item " href="./posts/categories.html">Categories</a>
-                                <a class="dropdown-item " href="./posts/posts.html">Posts</a>
-                                <a class="dropdown-item " href="./posts/post-new.html">New post</a>
-                            </div>
-                        </li>
-                        <li class="dropend">
-                            <a class="dropdown-item d-flex" href="#" role="button" data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside" aria-expanded="false">
-                                Authentication <span class="material-symbols-outlined ms-auto">chevron_right</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="./auth/sign-in.html" target="_blank">Sign in</a>
-                                <a class="dropdown-item" href="./auth/sign-up.html" target="_blank">Sign up</a>
-                                <a class="dropdown-item" href="./auth/password-reset.html" target="_blank">Password
-                                    reset</a>
-                                <a class="dropdown-item" href="./auth/verification-code.html"
-                                    target="_blank">Verification code</a>
-                                <a class="dropdown-item" href="./auth/error.html" target="_blank">Error</a>
-                            </div>
-                        </li>
-                        <li class="dropend">
-                            <a class="dropdown-item d-flex " href="#" role="button" data-bs-toggle="dropdown"
-                                data-bs-auto-close="outside" aria-expanded="false">
-                                Misc <span class="material-symbols-outlined ms-auto">chevron_right</span>
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item " href="./other/calendar.html">Calendar</a>
                             </div>
                         </li>
                     </ul>
@@ -310,199 +258,21 @@
                         <a class="dropdown-item d-flex" data-bs-theme-value="auto" href="#" role="button"
                             aria-pressed="false"> <span class="material-symbols-outlined me-2">contrast</span> Auto
                         </a>
-
-                        <!-- Navigation position -->
-                        <hr class="dropdown-divider">
-                        <h6 class="dropdown-header">Navigation position</h6>
-                        <a class="dropdown-item d-flex" data-bs-navigation-position-value="sidenav" href="#"
-                            role="button" aria-pressed="false">
-                            <span class="material-symbols-outlined me-2">keyboard_tab_rtl</span> Sidenav
-                        </a>
-                        <a class="dropdown-item d-flex active" data-bs-navigation-position-value="topnav"
-                            href="#" role="button" aria-pressed="true">
-                            <span class="material-symbols-outlined me-2">vertical_align_top</span> Topnav
-                        </a>
-
-                        <!-- Sidenav sizing -->
-                        <div class="sidenav-sizing">
-                            <hr class="dropdown-divider">
-                            <h6 class="dropdown-header">Sidenav sizing</h6>
-                            <a class="dropdown-item d-flex active" data-bs-sidenav-sizing-value="base" href="#"
-                                role="button" aria-pressed="true">
-                                <span class="material-symbols-outlined me-2">density_large</span> Base
-                            </a>
-                            <a class="dropdown-item d-flex" data-bs-sidenav-sizing-value="md" href="#"
-                                role="button" aria-pressed="false">
-                                <span class="material-symbols-outlined me-2">density_medium</span> Medium
-                            </a>
-                            <a class="dropdown-item d-flex" data-bs-sidenav-sizing-value="sm" href="#"
-                                role="button" aria-pressed="false">
-                                <span class="material-symbols-outlined me-2">density_small</span> Small
-                            </a>
-                        </div>
                     </div>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link" href="https://themes.getbootstrap.com/product/dashbrd/" target="_blank">
+                    <a class="nav-link" href="#" target="_blank">
                         <span class="material-symbols-outlined">local_mall</span><span class="d-xl-none ms-3">Go to
                             product page</span>
                     </a>
                 </div>
                 <div class="nav-item">
-                    <a class="nav-link" href="mailto:yevgenysim+simpleqode@gmail.com">
+                    <a class="nav-link" href="#">
                         <span class="material-symbols-outlined">alternate_email</span><span
                             class="d-xl-none ms-3">Contact us</span>
                     </a>
                 </div>
             </nav>
-        </div>
-    </div>
-</nav>
-<nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <span class="navbar-brand">Company</span>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="navbar-nav">
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Administration</a>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#">Masters</a>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="#">Item
-                                        Groups</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Add Item Group</a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">List Item
-                                                Groups</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="#">Items</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ route('item_create') }}">Add
-                                                Item</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('item_index') }}">List
-                                                Items</a></li>
-                                    </ul>
-                                </li>
-                                <hr>
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="#">Account
-                                        Groups</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Add Account Group</a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">List Account
-                                                Groups</a></li>
-                                    </ul>
-                                </li>
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="#">Accounts</a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ route('account_create') }}">Add
-                                                Account</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('account_index') }}">List
-                                                Accounts</a></li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Transactions</a>
-                    <ul class="dropdown-menu">
-                        @foreach (\App\Models\InvoiceType::orderBy('menu_order')->get() as $iType)
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">{{ $iType->name }}</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" wire:navigate
-                                            href="{{ route('invoice_create', ['invoiceType' => $iType->slug]) }}">Add
-                                            {{ $iType->name }}</a></li>
-                                    <li><a class="dropdown-item" wire:navigate
-                                            href="{{ route('invoice_index', ['invoiceType' => $iType->slug]) }}">List
-                                            {{ $iType->name }}</a></li>
-                                </ul>
-                            </li>
-                        @endforeach
-                        <hr>
-                        @foreach (\App\Models\AccountingType::all() as $aType)
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">{{ $aType->name }}</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('accounting_voucher_create', ['accountingType' => $aType->slug]) }}">Add
-                                            {{ $aType->name }}</a></li>
-                                    <li><a class="dropdown-item"
-                                            href="{{ route('accounting_voucher_index', ['accountingType' => $aType->slug]) }}">List
-                                            {{ $aType->name }}</a></li>
-                                </ul>
-                            </li>
-                        @endforeach
-
-                    </ul>
-                </div>
-                <div class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">Display</a>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#">Reports</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Sales Report</a></li>
-                                <li><a class="dropdown-item" href="#">Purchase Report</a></li>
-                                <li><a class="dropdown-item" href="#">Stock Summary</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#">Dashboards</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Sales Dashboard</a></li>
-                                <li><a class="dropdown-item" href="#">Financial Dashboard</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <a class="nav-link" href="#">Print/Email</a>
-                <a class="nav-link" href="#">SHS</a>
-                <a class="nav-link" href="#">House-Keeping</a>
-                <a class="nav-link" href="#">Help</a>
-                <a class="nav-link" href="javascript:void(0)">Favourites</a>
-                <a class="nav-link" href="javascript:void(0)">Add-On</a>
-
-            </div>
-
-            <div class="ms-auto">
-
-                <livewire:global-search />
-
-            </div>
-            <div class="ms-auto nav-link">
-                @livewire('financial-year-selector')
-            </div>
-            <div class="ms-auto">
-
-                <button class="btn btn-outline-light btn-sm" onclick="toggleDarkMode()">🌙</button>
-                <a href="{{ route('logout') }}" class="btn btn-outline-light btn-sm"
-                    onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
-                    Logout
-                </a>
-                <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    {{ csrf_field() }}
-                </form>
-
-            </div>
         </div>
     </div>
 </nav>
