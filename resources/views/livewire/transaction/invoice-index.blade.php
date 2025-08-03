@@ -4,17 +4,17 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="">From</label>
-                    <input type="text" wire:model.defer="fromDate" class="form-select form-select-sm date-component"
-                        placeholder="From Date">
+                    <input type="text" wire:model.defer="fromDate"
+                        class="form-select form-select-sm date-component focusable" placeholder="From Date">
                 </div>
                 <div class="col">
                     <label for="">To</label>
-                    <input type="text" wire:model.defer="toDate" class="form-select form-select-sm date-component"
-                        placeholder="To Date">
+                    <input type="text" wire:model.defer="toDate"
+                        class="form-select form-select-sm date-component focusable" placeholder="To Date">
                 </div>
                 <div class="col">
                     <label for="">Show Invoice Items</label>
-                    <select wire:model.defer="showItems" class="form-select form-select-sm">
+                    <select wire:model.defer="showItems" class="form-select form-select-sm focusable">
                         <option value="no">No</option>
                         <option value="yes">Yes</option>
                     </select>
@@ -85,74 +85,24 @@
                             @endif
                         @endforeach
                     </tbody>
-                    <thead>
+                    <tfoot>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td class="text-end h6">
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th class="text-end h6">
                                 {{ rupees($totalAmount) }}
-                            </td>
+                            </th>
                         </tr>
-                    </thead>
+                    </tfoot>
                 </table>
             </div>
         </div>
     </div>
 </div>
-
-@push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function filterTable() {
-                let input = document.getElementById('searchInput');
-                let filter = input.value.toLowerCase();
-                let table = document.getElementById('dataTable');
-                let tr = table.getElementsByTagName('tr');
-
-                for (let i = 0; i < tr.length; i++) {
-                    let td = tr[i].getElementsByTagName('td');
-                    let found = false;
-                    for (let j = 0; j < td.length; j++) {
-                        let cell = td[j];
-                        if (cell) {
-                            let text = cell.textContent || cell.innerText;
-                            if (text.toLowerCase().indexOf(filter) > -1) {
-                                found = true;
-                                break;
-                            }
-                        }
-                    }
-                    tr[i].style.display = found ? '' : 'none';
-                }
-            }
-
-            // Ensure date inputs are formatted on change
-            document.querySelectorAll('.date-component').forEach(input => {
-                input.addEventListener('change', function() {
-                    let value = this.value.trim();
-                    if (value) {
-                        let parts = value.split('-');
-                        if (parts.length === 2 || parts.length === 3) {
-                            let day = parts[0].padStart(2, '0');
-                            let month = parts[1].padStart(2, '0');
-                            let year = parts[2] || new Date().getFullYear().toString();
-                            if (year.length === 2) year = '20' + year;
-                            this.value = `${day}-${month}-${year}`;
-                            // Dispatch input event to update Livewire
-                            this.dispatchEvent(new Event('input', {
-                                bubbles: true
-                            }));
-                        }
-                    }
-                });
-            });
-        });
-    </script>
-@endpush

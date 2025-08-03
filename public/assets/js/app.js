@@ -155,6 +155,7 @@ inputs.forEach(input => {
             }
         }
     });
+
     input.addEventListener('blur', function () {
         let val = this.value.trim();
         if (!val) return;
@@ -201,6 +202,23 @@ inputs.forEach(input => {
         const finalMonth = String(date.getMonth() + 1).padStart(2, '0');
         const finalYear = date.getFullYear();
         this.value = `${finalDay}-${finalMonth}-${finalYear}`;
+        this.dispatchEvent(new Event('input', { bubbles: true })); // Trigger Livewire update on blur
+    });
+
+    // Add change event listener to complement blur
+    input.addEventListener('change', function () {
+        let val = this.value.trim();
+        if (val) {
+            const parts = val.split('-');
+            if (parts.length === 2 || parts.length === 3) {
+                let day = parts[0].padStart(2, '0');
+                let month = parts[1].padStart(2, '0');
+                let year = parts[2] || (parseInt(month) >= 4 ? fyStartYear : fyEndYear).toString();
+                if (year.length === 2) year = '20' + year;
+                this.value = `${day}-${month}-${year}`;
+                this.dispatchEvent(new Event('input', { bubbles: true })); // Trigger Livewire update on change
+            }
+        }
     });
 });
 //grok date component

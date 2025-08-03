@@ -50,3 +50,10 @@
     background-color: #2a6d6e;
     color: #fff;
 }
+
+footer {
+    padding: 5px 10px;
+    background: teal;
+    color: white;
+    font-size: .65rem !important;
+}

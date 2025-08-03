@@ -111,7 +111,7 @@ class InvoiceForm extends Component
 
         $this->invoiceData = [
             'voucher_series_id' => $this->invoice->voucher_series_id ?? null,
-            'invoice_date' => $this->invoice->invoice_date ?? now()->format('Y-m-d'),
+            'invoice_date' => $invoiceId ? Carbon::parse($this->invoice->invoice_date)->format('d-m-Y') : now()->format('d-m-Y'),
             'invoice_number' => $this->invoice->invoice_number ?? '',
             'invoice_time' => $this->invoice->invoice_time ?? now()->format('H:i'),
             'tax_type_id' => $this->invoice->tax_type_id ?? null,
@@ -501,7 +501,7 @@ class InvoiceForm extends Component
         $invoiceType = InvoiceType::findOrFail($this->invoiceData['invoice_type_id']);
         $rules = [
             'invoiceData.voucher_series_id' => 'required',
-            'invoiceData.invoice_date' => "required|date|date_format:Y-m-d|after_or_equal:{$fromDate}|before_or_equal:{$toDate}",
+            'invoiceData.invoice_date' => "required|date|date_format:d-m-Y|after_or_equal:{$fromDate}|before_or_equal:{$toDate}",
             'invoiceData.invoice_number' => 'required|string|min:1',
             'invoiceData.tax_type_id' => 'required',
             'invoiceData.account_id' => 'required',
@@ -592,7 +592,7 @@ class InvoiceForm extends Component
             $this->invoice->financial_year_id = current_user()->financial_year_id;
             $this->invoice->invoice_type_id = $this->invoiceData['invoice_type_id'];
             $this->invoice->voucher_series_id = $this->invoiceData['voucher_series_id'];
-            $this->invoice->invoice_date = $this->invoiceData['invoice_date'];
+            $this->invoice->invoice_date = Carbon::createFromFormat('d-m-Y', $this->invoiceData['invoice_date'])->format('Y-m-d');
             $this->invoice->invoice_time = now()->format('H:i');
             $this->invoice->tax_type_id = $this->invoiceData['tax_type_id'];
             $this->invoice->account_id = $this->invoiceData['account_id'];

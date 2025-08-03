@@ -1,4 +1,4 @@
-<footer class="bg-footer">
+<footer class="bg-footer fixed-bottom">
     <div class="container-fluid">
         <div class="d-flex justify-content-between">
             <span>Wire Invoice and Accounting</span>
