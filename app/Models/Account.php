@@ -37,9 +37,18 @@ class Account extends Model
         'is_deletable',
         'image',
         'user',
+        'op_number',
+        'gender',
+        'date_of_birth',
+        'occupation',
+        'referred_by',
+        'is_updated',
+        'admission_status',
     ];
     protected $casts = [
         'is_registered' => 'boolean',
+        'is_updated' => 'boolean',
+        'admission_status' => 'boolean',
         'is_editable'  => 'boolean',
         'is_deletable' => 'boolean',
         'image'        => 'array',

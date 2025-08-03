@@ -29,6 +29,15 @@ return new
                 $table->string('cr_dr')->default('dr');
                 $table->boolean('is_editable')->default(true);
                 $table->boolean('is_deletable')->default(true);
+
+                $table->string('op_number')->nullable();
+                $table->enum('gender', ['male', 'female'])->nullable();
+                $table->date('date_of_birth')->nullable();
+                $table->string('occupation')->nullable();
+                $table->string('referred_by', 55)->nullable();
+                $table->boolean('is_updated')->default(false)->comment('for Patients only');
+                $table->boolean('admission_status')->default('0')->comment('0-OP, 1=IP');
+
                 $table->tinyText('image')->nullable();
                 $table->foreignId('user')->default(1);
                 $table->timestamps();
