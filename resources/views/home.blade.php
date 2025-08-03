@@ -13,6 +13,11 @@
             height: auto;
         }
     </style>
-    <div class="img-container"> <img class="center-image img-thumbnail" src="{{ asset('assets/img/unnathi-logo.jpg') }}"
-            alt="" srcset=""></div>
+
+    @foreach (\App\Models\Patient::all() as $pat)
+        {{ $pat->name }}<br>
+    @endforeach
+
+    {{-- <div class="img-container"> <img class="center-image img-thumbnail" src="{{ asset('assets/img/unnathi-logo.jpg') }}"
+            alt="" srcset=""></div> --}}
 @endsection

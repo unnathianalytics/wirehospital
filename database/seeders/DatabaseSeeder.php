@@ -10,6 +10,7 @@ use App\Models\{
     Store,
     Branch,
     Account,
+    Patient,
     Company,
     TaxType,
     ItemGroup,
@@ -600,5 +601,13 @@ class DatabaseSeeder extends Seeder
         foreach ($users as $user) {
             $user->assignRole($role);
         }
+
+
+        Patient::create([
+            'name' => 'Patient 001',
+            'state_id' => $accountStateId,
+            'is_editable' => 0,
+            'is_deletable' => 0,
+        ]);
     }
 }
