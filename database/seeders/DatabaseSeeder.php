@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
         }
         Company::create([
             'id' => 1,
-            'name' => 'Wire Company',
+            'name' => 'Sriranga Ayurveda',
             'address' => fake()->address,
             'city' => fake()->city,
             'state_id' => 29,

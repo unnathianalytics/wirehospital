@@ -2,10 +2,9 @@
 
 namespace App\Livewire;
 
-use Auth;
-use App\Models\User;
-use App\Models\FinancialYear;
 use Livewire\Component;
+use App\Models\FinancialYear;
+use Illuminate\Support\Facades\Auth;
 
 class FinancialYearSelector extends Component
 {

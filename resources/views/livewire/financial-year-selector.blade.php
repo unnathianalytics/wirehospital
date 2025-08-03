@@ -1,5 +1,5 @@
 <div class="d-flex align-items-between">
-    <select id="financial_year" class="form-control" onchange="handleFinancialYearChange(event, this)">
+    <select id="financial_year" class="form-select mb-3" onchange="handleFinancialYearChange(event, this)">
         @foreach ($financialYears as $fy)
             <option value="{{ $fy->id }}" {{ $selectedFinancialYear == $fy->id ? 'selected' : '' }}>
                 {{ $fy->name }}

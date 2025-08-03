@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container-lg">
         <!-- Brand -->
-        <a class="navbar-brand d-flex align-items-center fs-5 fw-bold" href="./index.html"><svg
+        <a class="navbar-brand d-flex align-items-center fs-5 fw-bold" href="#"><svg
                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                 class="fs-4 text-secondary me-2 duo-icon duo-icon-box-2" data-duoicon="box-2">
                 <path fill="currentColor"
@@ -13,7 +13,7 @@
                 <path fill="currentColor"
                     d="M3.235 7.982 11 12.571v8.988a2.339 2.339 0 0 1-.25-.126l-6.294-3.634a2.502 2.502 0 0 1-1.25-2.165V8.366c0-.13.01-.258.03-.384h-.001Z"
                     class="duoicon-secondary-layer" opacity=".3"></path>
-            </svg>WireHospital</a>
+            </svg>{{ \Auth::user()->company->name }}</a>
 
         <!-- User -->
         <div class="d-flex ms-auto d-xl-none">
@@ -258,6 +258,9 @@
                         <a class="dropdown-item d-flex" data-bs-theme-value="auto" href="#" role="button"
                             aria-pressed="false"> <span class="material-symbols-outlined me-2">contrast</span> Auto
                         </a>
+                        <hr>
+                        <h6 class="dropdown-header">Change Financial Year</h6>
+                        @livewire('financial-year-selector')
                     </div>
                 </div>
                 <div class="nav-item">

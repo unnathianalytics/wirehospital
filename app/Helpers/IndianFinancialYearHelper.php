@@ -11,7 +11,7 @@ if (!function_exists('getUserFinancialYearDates')) {
     function getUserFinancialYearDates(): array
     {
         $user = Auth::user();
-        if ($user && $user->financialYear) {
+        if ($user?->financialYear) {
             return [
                 'from_date' => $user->financialYear->start_date->format('Y-m-d'),
                 'to_date' => $user->financialYear->end_date->format('Y-m-d'),

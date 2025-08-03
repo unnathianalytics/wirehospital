@@ -8,9 +8,13 @@ class FinancialYear extends Model
 {
     //
     protected $fillable = ['company_id', 'name', 'start_date', 'end_date', 'is_active'];
+    // protected $casts = [
+    //     'start_date' => 'date:Y-m-d',
+    //     'end_date' => 'date:Y-m-d',
+    // ];
     protected $casts = [
-        'start_date' => 'date:Y-m-d',
-        'end_date' => 'date:Y-m-d',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
     public function company()
     {
