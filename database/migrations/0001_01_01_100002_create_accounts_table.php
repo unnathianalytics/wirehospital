@@ -41,7 +41,6 @@ return new
                 $table->tinyText('image')->nullable();
                 $table->foreignId('user')->default(1);
                 $table->timestamps();
-                $table->foreign('group_id')->references('id')->on('account_groups')->onDelete('cascade');
             });
         }
 

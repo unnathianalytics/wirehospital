@@ -162,6 +162,58 @@
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         data-bs-auto-close="outside" aria-expanded="false">
+                        Masters
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="dropend">
+                            <a class="dropdown-item d-flex" href="#" role="button" data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside" aria-expanded="false">Patint<span
+                                    class="material-symbols-outlined ms-auto">chevron_right</span></a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item " wire:navigate href="{{ route('patient_create') }}">Add
+                                    Patinet</a>
+                                <a class="dropdown-item " wire:navigate href="{{ route('patient_index') }}">List
+                                    Patients</a>
+                            </div>
+                        </li>
+                        <li class="dropend">
+                            <a class="dropdown-item d-flex" href="#" role="button" data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside" aria-expanded="false">Account<span
+                                    class="material-symbols-outlined ms-auto">chevron_right</span></a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item " wire:navigate href="{{ route('account_create') }}">Add
+                                    Account</a>
+                                <a class="dropdown-item " wire:navigate href="{{ route('account_index') }}">List
+                                    Accounts</a>
+                            </div>
+                        </li>
+                        <li class="dropend">
+                            <a class="dropdown-item d-flex" href="#" role="button" data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside" aria-expanded="false">Item<span
+                                    class="material-symbols-outlined ms-auto">chevron_right</span></a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item " wire:navigate href="{{ route('item_create') }}">Add
+                                    Item</a>
+                                <a class="dropdown-item " wire:navigate href="{{ route('item_index') }}">List
+                                    Items</a>
+                            </div>
+                        </li>
+                        <li class="dropend">
+                            <a class="dropdown-item d-flex" href="#" role="button" data-bs-toggle="dropdown"
+                                data-bs-auto-close="outside" aria-expanded="false">
+                                Customers <span class="material-symbols-outlined ms-auto">chevron_right</span>
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item " href="./customers/customers.html">Customers</a>
+                                <a class="dropdown-item " href="./customers/customer.html">Customer details</a>
+                                <a class="dropdown-item " href="./customers/customer-new.html">New customer</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        data-bs-auto-close="outside" aria-expanded="false">
                         Transactions
                     </a>
                     <ul class="dropdown-menu">

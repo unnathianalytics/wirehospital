@@ -5,6 +5,7 @@ use App\Models\Account;
 use App\Models\Invoice;
 use App\Models\InvoiceType;
 use App\Models\AccountingType;
+use App\Models\Patient;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -32,6 +33,12 @@ Route::middleware('auth')->group(function () {
     Route::view('/master/accounts', 'master.accounts.index')->name('account_index');
     Route::view('/master/accounts/create', 'master.accounts.create')->name('account_create');
     Route::get('/master/accounts/{account}/edit', fn(Account $account) => view('master.accounts.edit', ['account' => $account]))->name('account_edit');
+
+    //Patient Routes
+    Route::view('/master/patients', 'master.patients.index')->name('patient_index');
+    Route::view('/master/patients/create', 'master.patients.create')->name('patient_create');
+    Route::get('/master/patients/{patient}/edit', fn(Patient $patient) => view('master.patients.edit', ['patient' => $patient]))->name('patient_edit');
+
 
     //Transaction Routes
     //1. Invoice

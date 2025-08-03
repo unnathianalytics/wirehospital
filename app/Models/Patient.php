@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 class Patient extends Account
@@ -19,5 +20,15 @@ class Patient extends Account
         static::creating(function ($model) {
             $model->group_id = 32;
         });
+    }
+    public function newOpNumber()
+    {
+        $count = $this->where(
+            'created_at',
+            '>',
+            Carbon::createFromFormat('Y-m-d H:i:s', now())->year,
+        )->count() + 1;
+
+        return "OP" . $count . '/' . date('Y');
     }
 }
