@@ -108,10 +108,11 @@
     </script>
     <script data-navigate-once="true" src="{{ asset('assets/js/jquery.js') }}?v={{ date('YmdHis') }}"></script>
     <script data-navigate-once="true" src="{{ asset('assets/js/jquery-ui.min.js') }}?v={{ date('YmdHis') }}"></script>
-    <script data-navigate-once="true" src="{{ asset('/assets/js/app.js') }}?v={{ date('YmdHis') }}"></script>
+
     <script>
         window.financialYearDates = @json(getUserFinancialYearDates() ?? ['start_date' => null, 'end_date' => null]);
     </script>
+    <script data-navigate-once="true" src="{{ asset('/assets/js/app.js') }}?v={{ date('YmdHis') }}"></script>
     @livewireScripts
     @stack('scripts')
 </body>

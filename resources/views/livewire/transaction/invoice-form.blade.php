@@ -29,7 +29,8 @@
                     </div>
                     <div class="col-lg-2 mb-3">
                         <label for="invoice_date" class="form-label">Date</label>
-                        <input type="text" id="invoice_date" class="focusable form-select form-select-sm date-iso"
+                        <input type="text" id="invoice_date"
+                            class="focusable form-select form-select-sm date-component"
                             wire:model.live="invoiceData.invoice_date" placeholder="yyyy-mm-dd"
                             data-max='{{ date('Y-m-d') }}' maxlength="10">
                     </div>

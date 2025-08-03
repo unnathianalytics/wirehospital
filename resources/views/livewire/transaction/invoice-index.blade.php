@@ -4,12 +4,12 @@
                 <div class="row mb-3">
                     <div class="col">
                         <label for="">From</label>
-                        <input type="text" wire:model.defer="fromDate" class="form-select form-select-sm date-iso"
+                        <input type="text" wire:model.defer="fromDate" class="form-select form-select-sm date-component"
                             placeholder="From Date">
                     </div>
                     <div class="col">
                         <label for="">To</label>
-                        <input type="text" wire:model.defer="toDate" class="form-select form-select-sm date-iso"
+                        <input type="text" wire:model.defer="toDate" class="form-select form-select-s date-component"
                             placeholder="To Date">
                     </div>
                     <div class="col">

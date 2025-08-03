@@ -108,7 +108,102 @@ function applyIsoDateMask(input) {
         if (!/[0-9]/.test(e.key)) e.preventDefault();
     });
 }
+//grok date component
+const startDateStr = window.financialYearDates.from_date;
+const endDateStr = window.financialYearDates.to_date;
+const startParts = startDateStr.split('-');
+const fyStartYear = parseInt(startParts[0], 10);
+const minDate = new Date(fyStartYear, parseInt(startParts[1], 10) - 1, parseInt(startParts[2], 10));
+const endParts = endDateStr.split('-');
+const fyEndYear = parseInt(endParts[0], 10);
+const maxDate = new Date(fyEndYear, parseInt(endParts[1], 10) - 1, parseInt(endParts[2], 10));
 
+const inputs = document.querySelectorAll('.date-component');
+inputs.forEach(input => {
+    input.addEventListener('keydown', function (e) {
+        const pos = this.selectionStart;
+        const val = this.value;
+        const key = e.key;
+        const separators = ['.', '/', '-'];
+        if (separators.includes(key)) {
+            e.preventDefault();
+            const before = val.substring(0, pos);
+            const after = val.substring(pos);
+            const parts = before.split('-');
+            const field = parts.length;
+            let currentStr = parts[parts.length - 1];
+            if (field === 1 || field === 2) {
+                if (currentStr.length > 0) {
+                    const newBefore = parts.slice(0, -1).join('-') + (parts.length > 1 ? '-' : '') + currentStr + '-';
+                    this.value = newBefore + after;
+                    const newPos = newBefore.length;
+                    this.selectionStart = this.selectionEnd = newPos;
+                }
+            }
+        } else if (/^\d$/.test(key)) {
+            const parts = val.split('-');
+            const fieldIndex = val.substring(0, pos).split('-').length - 1;
+            const currentField = parts[fieldIndex] || '';
+            const maxLen = fieldIndex < 2 ? 2 : 4;
+            if (currentField.length >= maxLen && this.selectionStart === this.selectionEnd) {
+                e.preventDefault();
+            }
+        } else {
+            const allowed = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Tab', 'Enter'];
+            if (!allowed.includes(key)) {
+                e.preventDefault();
+            }
+        }
+    });
+    input.addEventListener('blur', function () {
+        let val = this.value.trim();
+        if (!val) return;
+        val = val.replace(/[.\/]/g, '-');
+        const parts = val.split('-');
+        let dayStr, monthStr, yearStr;
+        if (parts.length === 2) {
+            dayStr = parts[0].padStart(2, '0');
+            monthStr = parts[1].padStart(2, '0');
+            const month = parseInt(monthStr, 10);
+            yearStr = (month >= 4 ? fyStartYear : fyEndYear).toString();
+        } else if (parts.length === 3) {
+            dayStr = parts[0].padStart(2, '0');
+            monthStr = parts[1].padStart(2, '0');
+            yearStr = parts[2];
+            if (yearStr.length === 2) {
+                yearStr = '20' + yearStr;
+            } else if (yearStr.length !== 4) {
+                this.value = '';
+                return;
+            }
+        } else {
+            this.value = '';
+            return;
+        }
+        const day = parseInt(dayStr, 10);
+        const month = parseInt(monthStr, 10);
+        const year = parseInt(yearStr, 10);
+        if (isNaN(day) || isNaN(month) || isNaN(year) || day < 1 || day > 31 || month < 1 || month > 12) {
+            this.value = '';
+            return;
+        }
+        let date = new Date(year, month - 1, day);
+        if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+            this.value = '';
+            return;
+        }
+        if (date < minDate) {
+            date = minDate;
+        } else if (date > maxDate) {
+            date = maxDate;
+        }
+        const finalDay = String(date.getDate()).padStart(2, '0');
+        const finalMonth = String(date.getMonth() + 1).padStart(2, '0');
+        const finalYear = date.getFullYear();
+        this.value = `${finalDay}-${finalMonth}-${finalYear}`;
+    });
+});
+//grok date component
 function initGlobalIsoDateMasking() {
     document.querySelectorAll('input.date-iso').forEach(applyIsoDateMask);
 }
