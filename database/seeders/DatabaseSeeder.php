@@ -109,8 +109,8 @@ class DatabaseSeeder extends Seeder
             'id' => 2,
             'company_id' => Company::first()->id,
             'name' => 'FY ' . date('Y') + 1 . '-' . (date('y') + 2),
-            'start_date' => date('Y') + 1 . '-04-01',
-            'end_date' => date('Y') + 2 . '-03-31',
+            'start_date' => \Illuminate\Support\Carbon::parse($dateRange['from_date'])->addYear(),
+            'end_date' => \Illuminate\Support\Carbon::parse($dateRange['to_date'])->addYear(),
             'is_active' => true,
         ]);
 
