@@ -9,7 +9,6 @@ class GlobalSearch extends Component
     public string $query = '';
     public array $results = [];
 
-
     public function updatedQuery($value)
     {
         usleep(300000);
@@ -30,9 +29,14 @@ class GlobalSearch extends Component
         foreach ($models as $modelClass => $meta) {
             $builder = $modelClass::query();
 
+            // Exclude accounts with group_id=32 for Account model
+            if ($modelClass === \App\Models\Account::class) {
+                $builder->where('group_id', '!=', 32);
+            }
+
             $builder->where(function ($q) use ($meta, $query) {
                 foreach ($meta['fields'] as $field) {
-                    $q->orWhere($field, 'like', '%' . $query . "%");
+                    $q->orWhere($field, 'like', "%$query%");
                 }
             });
 
@@ -79,8 +83,6 @@ class GlobalSearch extends Component
             }
         }
     }
-
-
 
     public function render()
     {
