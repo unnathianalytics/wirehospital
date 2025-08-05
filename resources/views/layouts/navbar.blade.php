@@ -285,6 +285,9 @@
                                 class="badge text-bg-primary ms-auto">1.0.6</span></a>
                     </div>
                 </div>
+                <div class="input-group my-4 my-xl-0">
+                    <livewire:global-search />
+                </div>
             </nav>
 
             <!-- Divider -->

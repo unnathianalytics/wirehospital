@@ -1,6 +1,13 @@
 <?php
 return [
     'models' => [
+        \App\Models\Patient::class => [
+            'label' => 'Patient',
+            'fields' => ['op_number', 'name', 'mobile', 'address'],
+            'route_name' => 'patient_edit',
+            'title' => 'name',
+            'subtitle' => 'op_number',
+        ],
         \App\Models\Item::class => [
             'label' => 'Items',
             'fields' => ['name', 'barcode', 'hsn_sac'],
