@@ -35,14 +35,11 @@
                         <label class="form-label">EMail</label>
                         <input type="email" wire:model="email" class="form-select form-select-sm focusable" />
                     </div>
-                    <div class="col-lg-3 mb-3">
+                    <div class="col-lg-3 mb-3" wire:ignore>
                         <label class="form-label">State</label>
-                        <select wire:model="state_id" class="form-select form-select-sm">
-                            <option value="">-- Select State --</option>
-                            @foreach ($states as $state)
-                                <option value="{{ $state->id }}">{{ $state->name }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" id="state_autocomplete" class="form-select form-select-sm focusable"
+                            placeholder="Type to search states..." />
+                        <input type="hidden" wire:model="state_id" id="state_id_hidden" />
                     </div>
                     <div class="col-lg-12 mb-3">
                         <div class="card card-body p-2">
@@ -113,6 +110,12 @@
 </div>
 @push('scripts')
     <script>
+        // States data for autocomplete
+        const statesData = @json(
+            $states->map(function ($state) {
+                return ['id' => $state->id, 'name' => $state->name];
+            }));
+
         function initializeDatepicker() {
             $(".date").each(function() {
                 const $input = $(this);
@@ -151,13 +154,97 @@
             });
         }
 
+        function initializeStateAutocomplete() {
+            const $autocomplete = $("#state_autocomplete");
+            const $hidden = $("#state_id_hidden");
+
+            if ($autocomplete.hasClass('ui-autocomplete-input')) {
+                return;
+            }
+
+            let selectedItem = null;
+
+            $autocomplete.autocomplete({
+                source: statesData.map(state => ({
+                    label: state.name,
+                    value: state.name,
+                    id: state.id
+                })),
+                minLength: 1,
+                focus: function(event, ui) {
+                    // Prevent the input from being updated on focus
+                    return false;
+                },
+                select: function(event, ui) {
+                    selectedItem = ui.item;
+                    $autocomplete.val(ui.item.value);
+                    $hidden.val(ui.item.id);
+                    // Update Livewire component
+                    Livewire.find($hidden.closest('[wire\\:id]').attr('wire:id')).set('state_id', ui.item.id);
+                    return false; // Prevent default behavior
+                },
+                change: function(event, ui) {
+                    // Check if a valid item was selected
+                    if (!selectedItem) {
+                        // Check if the current value matches any state
+                        const currentValue = $autocomplete.val();
+                        const matchedState = statesData.find(state =>
+                            state.name.toLowerCase() === currentValue.toLowerCase()
+                        );
+
+                        if (matchedState) {
+                            // Valid match found
+                            $hidden.val(matchedState.id);
+                            $autocomplete.val(matchedState.name);
+                            Livewire.find($hidden.closest('[wire\\:id]').attr('wire:id')).set('state_id',
+                                matchedState.id);
+                        } else {
+                            // No valid match, clear everything
+                            $hidden.val('');
+                            $autocomplete.val('');
+                            Livewire.find($hidden.closest('[wire\\:id]').attr('wire:id')).set('state_id', '');
+                        }
+                    }
+                    selectedItem = null; // Reset for next interaction
+                }
+            });
+
+            // Handle keyboard events specifically
+            $autocomplete.on('keydown', function(event) {
+                if (event.keyCode === 13) { // Enter key
+                    event.preventDefault();
+                    const menu = $autocomplete.autocomplete('widget');
+                    const active = menu.find('.ui-state-active');
+                    if (active.length) {
+                        active.click();
+                    }
+                }
+            });
+
+            // Set initial value if editing
+            const currentStateId = $hidden.val();
+            if (currentStateId) {
+                const currentState = statesData.find(state => state.id == currentStateId);
+                if (currentState) {
+                    $autocomplete.val(currentState.name);
+                    selectedItem = {
+                        label: currentState.name,
+                        value: currentState.name,
+                        id: currentState.id
+                    };
+                }
+            }
+        }
+
         $(function() {
             initializeDatepicker();
+            initializeStateAutocomplete();
         });
 
         document.addEventListener('livewire:initialized', () => {
             Livewire.hook('element.updated', (el, component) => {
                 initializeDatepicker();
+                initializeStateAutocomplete();
             });
         });
     </script>

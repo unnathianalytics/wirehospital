@@ -9,12 +9,11 @@ use App\Models\{Patient, State};
 class PatientForm extends Component
 {
     public ?Patient $patient = null;
-    public $op_number, $name, $address, $mobile, $email, $gender, $date_of_birth, $occupation, $referred_by, $address_proof_id, $address_proof_number, $state_id, $states;
+    public $op_number, $name, $address, $mobile, $email, $gender, $date_of_birth, $occupation, $referred_by, $address_proof_id, $address_proof_number, $state_id;
     public function mount(?Patient $patient = null)
     {
 
         $this->patient = $patient;
-        $this->states = State::orderBy('name')->get();
 
         if ($patient?->exists) {
             $this->op_number = $patient->op_number;
@@ -72,6 +71,8 @@ class PatientForm extends Component
 
     public function render()
     {
-        return view('livewire.master.patient-form');
+        return view('livewire.master.patient-form', [
+            'states' => State::orderBy('name')->get()
+        ]);
     }
 }
