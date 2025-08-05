@@ -57,3 +57,11 @@ footer {
     color: white;
     font-size: .65rem !important;
 }
+
+input:disabled,
+select:disabled,
+textarea:disabled,
+input[type="checkbox"]:disabled,
+input[type="radio"]:disabled {
+    border: 1px solid red !important;
+}

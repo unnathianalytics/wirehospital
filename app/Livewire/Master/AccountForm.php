@@ -69,24 +69,17 @@ class AccountForm extends Component
         }
 
         if ($this->account && !$this->account->is_editable) {
-            $this->addError('Account', 'Default account disabled for edit');
-            return;
+            $this->group_id = $this->account->group_id;
+            //$this->addError('Account', 'Default account disabled for edit');
+            //return;
         }
-        if (current_user()->hasPermissionTo('account_edit')) {
-            Account::updateOrCreate(
-                ['id' => $this->account?->id],
-                $validated
-            );
-        } else {
-            $this->addError('NoPermission', 'Not permitted to any action');
-            return;
-        }
+        Account::updateOrCreate(
+            ['id' => $this->account?->id],
+            $validated
+        );
 
-
-        session()->flash('message', $this->account ? 'Account updated successfully.' : 'Account created successfully.');
         return redirect()->route('account_index');
     }
-
 
     public function render()
     {
