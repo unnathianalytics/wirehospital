@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Master;
 
+use App\Models\Ehr;
 use Livewire\Component;
 use App\Models\{Patient, State};
 
@@ -36,9 +37,17 @@ class PatientForm extends Component
             'email' => 'nullable|email|max:255',
             'state_id' => 'required|exists:states,id',
         ]);
-        Patient::updateOrCreate(
+        $patient = Patient::updateOrCreate(
             ['id' => $this->patient?->id],
             $validated
+        );
+        Ehr::updateOrCreate(
+            [
+                'patient_id' => $patient->id,
+                'doctor_assigned' => current_user()->id,
+                'updated_by' => current_user()->id,
+                'user' => current_user()->id
+            ]
         );
 
         session()->flash('message', $this->patient ? 'Patient updated successfully.' : 'Patient created successfully.');

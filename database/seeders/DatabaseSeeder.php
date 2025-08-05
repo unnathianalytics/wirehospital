@@ -601,11 +601,5 @@ class DatabaseSeeder extends Seeder
         foreach ($users as $user) {
             $user->assignRole($role);
         }
-
-
-        Patient::create([
-            'name' => 'Patient 001',
-            'state_id' => $accountStateId,
-        ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Patient extends Account
 {
@@ -30,5 +31,10 @@ class Patient extends Account
         )->count() + 1;
 
         return "OP" . $count . '/' . date('Y');
+    }
+
+    public function ehr(): HasOne
+    {
+        return $this->hasOne(EHR::class, 'patient_id');
     }
 }

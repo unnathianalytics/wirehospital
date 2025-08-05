@@ -16,7 +16,7 @@ return new
                 function (Blueprint $table) {
 
                     $table->id('id');
-                    $table->foreignId('account_id');
+                    $table->foreignId('patient_id')->constrained('accounts');
                     $table->text('present_complaints')->nullable();
                     $table->text('present_complaint_duration')->nullable();
                     $table->text('course_of_complaints')->nullable();
@@ -147,7 +147,7 @@ return new
                     $table->text('tp_treatment_plan')->nullable();
                     $table->text('tp_treatment_plan_guidelines')->nullable();
                     $table->text('lab_reports')->nullable();
-                    $table->foreignId('doctor_assigned')->constrained('accounts')->nullable();
+                    $table->foreignId('doctor_assigned')->constrained('users')->nullable();
                     $table->foreignId('updated_by')->constrained('users')->nullable();
                     $table->boolean('status')->default(false)->comment('False=notUpd|True=upd');
                     $table->foreignId('user')->constrained('users');

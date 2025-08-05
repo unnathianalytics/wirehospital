@@ -9,9 +9,10 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Group</th>
+                    <th>Mobile</th>
                     <th>Op Balane</th>
                     <th>Cr/Dr</th>
+                    <th>Options</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,9 +20,18 @@
                     <tr style="background-color: {{ $pat->cr_dr == 'cr' ? 'lightred' : '' }}" x-data
                         @dblclick="window.location='{{ route('patient_edit', $pat->id) }}'">
                         <td>{{ $pat->name }}</td>
-                        <td>{{ $pat->parent->name ?? '-' }}</td>
+                        <td>{{ $pat->mobile }}</td>
                         <td class="text-end">{{ rupees($pat->op_balance) }}</td>
                         <td>{{ ucwords($pat->cr_dr) }}</td>
+                        <td>
+                            @if (!$pat->ehr->status)
+                                <a href="#" class="btn btn-sm btn-danger">Update EHR</a>
+                            @else
+                                <a href="#" class="btn btn-sm btn-info">View EHR</a>
+                            @endif
+
+
+                        </td>
                     </tr>
                 @empty
                     <tr>
