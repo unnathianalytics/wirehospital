@@ -110,21 +110,21 @@
 </div>
 @push('scripts')
     <script>
-        // States data for autocomplete
-        const statesData = @json(
-            $states->map(function ($state) {
-                return ['id' => $state->id, 'name' => $state->name];
-            }));
+        const statesData = @json($states->map(fn($state) => ['id' => $state->id, 'name' => $state->name]));
+        const stateOptions = statesData.map(state => ({
+            label: state.name,
+            value: state.name,
+            id: state.id
+        }));
 
-        function initializeDatepicker() {
-            $(".date").each(function() {
+        function initializeDatepicker(root = document.body) {
+            $(".date", root).each(function() {
                 const $input = $(this);
                 if ($input.hasClass('hasDatepicker')) {
                     return;
                 }
                 let minDate = '-100Y',
                     maxDate = '+0D';
-
                 $input.datepicker({
                     dateFormat: 'yy-mm-dd',
                     changeMonth: true,
@@ -132,107 +132,91 @@
                     minDate: minDate,
                     maxDate: maxDate,
                     onSelect: function(dateText) {
-                        // Update the Livewire property directly
-                        $input.val(dateText);
-                        $input.trigger('input');
-
-                        // Dispatch Livewire event to update the component
-                        Livewire.find($input.closest('[wire\\:id]').attr('wire:id')).set(
-                            'date_of_birth', dateText);
+                        updateLivewireDate($input, dateText);
                     },
                     onClose: function(dateText) {
-                        $input.val(dateText);
-                        $input.trigger('input');
-
-                        // Dispatch Livewire event to update the component
-                        if (dateText) {
-                            Livewire.find($input.closest('[wire\\:id]').attr('wire:id')).set(
-                                'date_of_birth', dateText);
-                        }
+                        updateLivewireDate($input, dateText);
                     }
                 });
             });
         }
 
-        function initializeStateAutocomplete() {
-            const $autocomplete = $("#state_autocomplete");
-            const $hidden = $("#state_id_hidden");
+        function updateLivewireDate($input, dateText) {
+            $input.val(dateText).trigger('input');
+            if (dateText) {
+                const componentId = $input.closest('[wire\\:id]').attr('wire:id');
+                if (componentId) {
+                    Livewire.find(componentId).set('date_of_birth', dateText);
+                }
+            }
+        }
 
-            if ($autocomplete.hasClass('ui-autocomplete-input')) {
+        function initializeStateAutocomplete(root = document.body) {
+            const $autocomplete = $("#state_autocomplete", root);
+            if (!$autocomplete.length || $autocomplete.hasClass('ui-autocomplete-input')) {
                 return;
             }
-
+            const $hidden = $("#state_id_hidden", root);
             let selectedItem = null;
-
             $autocomplete.autocomplete({
-                source: statesData.map(state => ({
-                    label: state.name,
-                    value: state.name,
-                    id: state.id
-                })),
+                source: function(request, response) {
+                    const term = request.term.toLowerCase();
+                    const matches = stateOptions
+                        .filter(option => option.label.toLowerCase().includes(term))
+                        .slice(0, 10); // Limit to 10 results
+                    response(matches);
+                },
                 minLength: 1,
                 focus: function(event, ui) {
-                    // Prevent the input from being updated on focus
                     return false;
                 },
                 select: function(event, ui) {
                     selectedItem = ui.item;
                     $autocomplete.val(ui.item.value);
                     $hidden.val(ui.item.id);
-                    // Update Livewire component
-                    Livewire.find($hidden.closest('[wire\\:id]').attr('wire:id')).set('state_id', ui.item.id);
-                    return false; // Prevent default behavior
+                    updateLivewireState($hidden, ui.item.id);
+                    return false;
                 },
                 change: function(event, ui) {
-                    // Check if a valid item was selected
                     if (!selectedItem) {
-                        // Check if the current value matches any state
                         const currentValue = $autocomplete.val();
-                        const matchedState = statesData.find(state =>
-                            state.name.toLowerCase() === currentValue.toLowerCase()
+                        const matchedState = stateOptions.find(option =>
+                            option.label.toLowerCase() === currentValue.toLowerCase()
                         );
-
                         if (matchedState) {
-                            // Valid match found
+                            $autocomplete.val(matchedState.value);
                             $hidden.val(matchedState.id);
-                            $autocomplete.val(matchedState.name);
-                            Livewire.find($hidden.closest('[wire\\:id]').attr('wire:id')).set('state_id',
-                                matchedState.id);
+                            updateLivewireState($hidden, matchedState.id);
                         } else {
-                            // No valid match, clear everything
-                            $hidden.val('');
                             $autocomplete.val('');
-                            Livewire.find($hidden.closest('[wire\\:id]').attr('wire:id')).set('state_id', '');
+                            $hidden.val('');
+                            updateLivewireState($hidden, '');
                         }
                     }
-                    selectedItem = null; // Reset for next interaction
+                    selectedItem = null;
+                },
+                open: function(event, ui) {
+                    $(this).autocomplete("widget").css({
+                        "max-height": "200px",
+                        "overflow-y": "auto",
+                        "overflow-x": "hidden"
+                    });
                 }
             });
-
-            // Handle keyboard events specifically
-            $autocomplete.on('keydown', function(event) {
-                if (event.keyCode === 13) { // Enter key
-                    event.preventDefault();
-                    const menu = $autocomplete.autocomplete('widget');
-                    const active = menu.find('.ui-state-active');
-                    if (active.length) {
-                        active.click();
-                    }
-                }
-            });
-
-            // Set initial value if editing
             const currentStateId = $hidden.val();
             if (currentStateId) {
-                const currentState = statesData.find(state => state.id == currentStateId);
+                const currentState = stateOptions.find(option => option.id == currentStateId);
                 if (currentState) {
-                    $autocomplete.val(currentState.name);
-                    selectedItem = {
-                        label: currentState.name,
-                        value: currentState.name,
-                        id: currentState.id
-                    };
+                    $autocomplete.val(currentState.value);
+                    selectedItem = currentState;
                 }
+            }
+        }
+
+        function updateLivewireState($hidden, stateId) {
+            const componentId = $hidden.closest('[wire\\:id]').attr('wire:id');
+            if (componentId) {
+                Livewire.find(componentId).set('state_id', stateId);
             }
         }
 
@@ -243,8 +227,8 @@
 
         document.addEventListener('livewire:initialized', () => {
             Livewire.hook('element.updated', (el, component) => {
-                initializeDatepicker();
-                initializeStateAutocomplete();
+                initializeDatepicker(el);
+                initializeStateAutocomplete(el);
             });
         });
     </script>
