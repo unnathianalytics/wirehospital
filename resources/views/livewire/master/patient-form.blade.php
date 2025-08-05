@@ -163,7 +163,7 @@
                     const term = request.term.toLowerCase();
                     const matches = stateOptions
                         .filter(option => option.label.toLowerCase().includes(term))
-                        .slice(0, 10); // Limit to 10 results
+                        .slice(0, 10);
                     response(matches);
                 },
                 minLength: 1,
