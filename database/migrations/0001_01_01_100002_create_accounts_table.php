@@ -21,7 +21,7 @@ return new
                 $table->string('mobile', 10)->nullable();
                 $table->string('email', 55)->nullable();
                 $table->boolean('is_registered')->default(false);
-                $table->foreignId('state_id')->constrained();
+                $table->foreignId('state_id')->constrained()->nullable();
                 $table->string('gstin', 15)->nullable();
                 $table->string('pan', 10)->nullable();
                 $table->boolean('is_additive')->default(true);
@@ -31,10 +31,12 @@ return new
                 $table->boolean('is_deletable')->default(true);
 
                 $table->string('op_number')->unique()->nullable();
-                $table->enum('gender', ['male', 'female'])->nullable();
+                $table->enum('gender', ['Male', 'Female'])->nullable();
                 $table->date('date_of_birth')->nullable();
                 $table->string('occupation')->nullable();
                 $table->string('referred_by', 55)->nullable();
+                $table->string('address_proof_id')->nullable();
+                $table->string('address_proof_number')->nullable();
                 $table->boolean('is_updated')->default(false)->comment('for Patients only');
                 $table->boolean('admission_status')->default('0')->comment('0-OP, 1=IP');
 
@@ -43,6 +45,7 @@ return new
                 $table->timestamps();
             });
         }
+
 
         /**
          * Reverse the migrations.

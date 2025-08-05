@@ -9,21 +9,26 @@ use App\Models\{Patient, State};
 class PatientForm extends Component
 {
     public ?Patient $patient = null;
-    public $op_number, $name, $address, $mobile, $state_id, $email, $is_registered = false, $gstin, $op_balance, $cr_dr, $is_editable = true, $is_deletable = true;
-    public $states;
+    public $op_number, $name, $address, $mobile, $email, $gender, $date_of_birth, $occupation, $referred_by, $address_proof_id, $address_proof_number, $state_id, $states;
     public function mount(?Patient $patient = null)
     {
-        $this->states = State::orderBy('name')->get();
 
         $this->patient = $patient;
+        $this->states = State::orderBy('name')->get();
 
         if ($patient?->exists) {
             $this->op_number = $patient->op_number;
             $this->name = $patient->name;
             $this->address = $patient->address;
+            $this->state_id = $patient->state_id;
             $this->mobile = $patient->mobile;
             $this->email = $patient->email;
-            $this->state_id = $patient->state_id;
+            $this->gender = $patient->gender;
+            $this->date_of_birth = $patient->date_of_birth;
+            $this->occupation = $patient->occupation;
+            $this->referred_by = $patient->referred_by;
+            $this->address_proof_id = $patient->address_proof_id;
+            $this->address_proof_number = $patient->address_proof_number;
         } else {
             $this->patient = null;
             $this->op_number = Patient::newOpNumber();
@@ -36,10 +41,17 @@ class PatientForm extends Component
             'op_number' => 'required',
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',
+            'state_id' => 'required',
             'mobile' => 'nullable|numeric|min:6000000000|max:9999999999',
             'email' => 'nullable|email|max:255',
-            'state_id' => 'required|exists:states,id',
+            'gender' => 'required',
+            'date_of_birth' => 'required',
+            'occupation' => 'required|string|max:255',
+            'referred_by' => 'required|string|max:255',
+            'address_proof_id' => 'nullable|max:255',
+            'address_proof_number' => 'nullable|max:255',
         ]);
+
         $patient = Patient::updateOrCreate(
             ['id' => $this->patient?->id],
             $validated

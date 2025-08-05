@@ -2,9 +2,14 @@
 @php $patients = App\Models\Patient::orderBy('name')->get(); @endphp
 @section('content')
     <div class="container">
-        <h4>All Patients</h4>
-        <input type="text" id="searchInput" autofocus placeholder="Search..." onkeyup="filterTable()" value=""> <a
-            class="btn btn-sm btn-primary" href="{{ route('patient_create') }}">Add Patient</a>
+        <div class="d-flex justify-content-between">
+            <h4>All Patients</h4>
+            <div class="d-flex justify-content-between">
+                <input type="text" id="searchInput" class="form-control form-control-sm" autofocus placeholder="Search..."
+                    onkeyup="filterTable()" value="">
+                <a class="btn btn-sm btn-primary" href="{{ route('patient_create') }}">Add Patient</a>
+            </div>
+        </div>
         <table class="table table-bordered table-sm mt-3" id="dataTable">
             <thead>
                 <tr>

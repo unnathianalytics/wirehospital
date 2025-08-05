@@ -21,7 +21,7 @@
                 <a class="btn btn-link d-inline-flex align-items-center dropdown-toggle" href="#" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="avatar avatar-sm avatar-status avatar-status-success me-3">
-                        <img class="avatar-img" src="./assets/img/photos/photo-6.jpg" alt="...">
+                        <img class="avatar-img" src="{{ asset('assets/img/photos/photo-6.jpg') }}" alt="...">
                     </span>
                     <span class="d-none d-xl-block">{{ Auth::user()->name }}</span>
                 </a>
@@ -68,7 +68,8 @@
                             <div class="row gx-3">
                                 <div class="col-auto">
                                     <div class="avatar avatar-sm">
-                                        <img class="avatar-img" src="./assets/img/photos/photo-1.jpg" alt="...">
+                                        <img class="avatar-img" src="{{ asset('assets/img/photos/photo-1.jpg') }}"
+                                            alt="...">
                                     </div>
                                 </div>
                                 <div class="col">
@@ -87,7 +88,8 @@
                             <div class="row gx-3">
                                 <div class="col-auto">
                                     <div class="avatar avatar-sm">
-                                        <img class="avatar-img" src="./assets/img/photos/photo-2.jpg" alt="...">
+                                        <img class="avatar-img" src="{{ asset('assets/img/photos/photo-2.jpg') }}"
+                                            alt="...">
                                     </div>
                                 </div>
                                 <div class="col">
