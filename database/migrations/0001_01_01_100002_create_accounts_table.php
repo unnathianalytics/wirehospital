@@ -30,7 +30,7 @@ return new
                 $table->boolean('is_editable')->default(true);
                 $table->boolean('is_deletable')->default(true);
 
-                $table->string('op_number')->nullable();
+                $table->string('op_number')->unique()->nullable();
                 $table->enum('gender', ['male', 'female'])->nullable();
                 $table->date('date_of_birth')->nullable();
                 $table->string('occupation')->nullable();

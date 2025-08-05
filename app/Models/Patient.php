@@ -22,9 +22,9 @@ class Patient extends Account
             $model->group_id = 32;
         });
     }
-    public function newOpNumber()
+    public static function newOpNumber()
     {
-        $count = $this->where(
+        $count = self::where(
             'created_at',
             '>',
             Carbon::createFromFormat('Y-m-d H:i:s', now())->year,

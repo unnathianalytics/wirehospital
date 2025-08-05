@@ -8,6 +8,7 @@
         <table class="table table-bordered table-sm mt-3" id="dataTable">
             <thead>
                 <tr>
+                    <th>Op Number</th>
                     <th>Name</th>
                     <th>Mobile</th>
                     <th>Op Balane</th>
@@ -19,6 +20,7 @@
                 @forelse ($patients as $pat)
                     <tr style="background-color: {{ $pat->cr_dr == 'cr' ? 'lightred' : '' }}" x-data
                         @dblclick="window.location='{{ route('patient_edit', $pat->id) }}'">
+                        <td>{{ $pat->op_number }}</td>
                         <td>{{ $pat->name }}</td>
                         <td>{{ $pat->mobile }}</td>
                         <td class="text-end">{{ rupees($pat->op_balance) }}</td>

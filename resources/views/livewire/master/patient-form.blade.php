@@ -12,7 +12,11 @@
             <div class="col-lg-9">
                 <div class="row">
                     <div class="col-lg-5 mb-3">
-                        <!-- first column start -->
+                        <label class="form-label">Op Number</label>
+                        <input type="text" wire:model="op_number" readonly
+                            class="form-select form-select-sm focusable" />
+                    </div>
+                    <div class="col-lg-7 mb-3">
                         <label class="form-label">Name</label>
                         <input type="text" wire:model.live="name" class="form-select form-select-sm focusable" />
                     </div>

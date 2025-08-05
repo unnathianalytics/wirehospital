@@ -9,7 +9,7 @@ use App\Models\{Patient, State};
 class PatientForm extends Component
 {
     public ?Patient $patient = null;
-    public $name, $address, $mobile, $state_id, $email, $is_registered = false, $gstin, $op_balance, $cr_dr, $is_editable = true, $is_deletable = true;
+    public $op_number, $name, $address, $mobile, $state_id, $email, $is_registered = false, $gstin, $op_balance, $cr_dr, $is_editable = true, $is_deletable = true;
     public $states;
     public function mount(?Patient $patient = null)
     {
@@ -18,6 +18,7 @@ class PatientForm extends Component
         $this->patient = $patient;
 
         if ($patient?->exists) {
+            $this->op_number = $patient->op_number;
             $this->name = $patient->name;
             $this->address = $patient->address;
             $this->mobile = $patient->mobile;
@@ -25,12 +26,14 @@ class PatientForm extends Component
             $this->state_id = $patient->state_id;
         } else {
             $this->patient = null;
+            $this->op_number = Patient::newOpNumber();
         }
     }
 
     public function save()
     {
         $validated = $this->validate([
+            'op_number' => 'required',
             'name' => 'required|string|max:255',
             'address' => 'nullable|string|max:500',
             'mobile' => 'nullable|numeric|min:6000000000|max:9999999999',
