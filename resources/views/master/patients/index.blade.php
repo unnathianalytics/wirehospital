@@ -32,7 +32,8 @@
                         <td>{{ ucwords($pat->cr_dr) }}</td>
                         <td>
                             @if (!$pat->ehr->status)
-                                <a href="#" class="btn btn-sm btn-danger">Update EHR</a>
+                                <a href="{{ route('ehr_edit', ['id' => $pat->id]) }}" class="btn btn-sm btn-danger">Update
+                                    EHR</a>
                             @else
                                 <a href="#" class="btn btn-sm btn-info">View EHR</a>
                             @endif

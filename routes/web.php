@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceType;
 use App\Models\AccountingType;
 use App\Models\Patient;
+use App\Models\EHR;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -106,6 +107,13 @@ Route::middleware('auth')->group(function () {
             ]);
         return response()->json($results);
     })->name('autocomplete.items');
+
+    //Patient EHR
+    Route::get('/patient/{id}/ehr/edit', function (Patient $patient) {
+        return view('livewire.patient.ehr', ['patient' => $patient]);
+    })->name('ehr_edit');
+
+
 
     //print
     //Invoice
