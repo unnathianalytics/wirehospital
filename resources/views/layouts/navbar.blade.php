@@ -153,7 +153,7 @@
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        Dashboards
+                        Administration
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item active" href="./index.html">Default</a>

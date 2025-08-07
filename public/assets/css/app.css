@@ -24,6 +24,15 @@
     --bs-dropdown-item-padding-x: 10px
 }
 
+body {
+    overflow-y: scroll;
+}
+
+.form-label {
+    border-bottom: 1px solid red;
+    width: 100%;
+}
+
 .dropdown-item {
     padding: 5px 10px !important;
 }

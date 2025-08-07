@@ -109,9 +109,8 @@ Route::middleware('auth')->group(function () {
     })->name('autocomplete.items');
 
     //Patient EHR
-    Route::get('/patient/{id}/ehr/edit', function (Patient $patient) {
-        return view('livewire.patient.ehr', ['patient' => $patient]);
-    })->name('ehr_edit');
+    // Route::get('/master/items/{item}/edit', fn(Item $item) => view('master.items.edit', ['item' => $item]))->name('item_edit');
+    Route::get('/patient/ehr/{patient}/edit', fn(Patient $patient) => view('patient.ehr.edit', ['patient' => $patient->id]))->name('ehr_edit');
 
 
 

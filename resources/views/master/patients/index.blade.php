@@ -23,8 +23,7 @@
             </thead>
             <tbody>
                 @forelse ($patients as $pat)
-                    <tr style="background-color: {{ $pat->cr_dr == 'cr' ? 'lightred' : '' }}" x-data
-                        @dblclick="window.location='{{ route('patient_edit', $pat->id) }}'">
+                    <tr x-data @dblclick="window.location='{{ route('patient_edit', $pat->id) }}'">
                         <td>{{ $pat->op_number }}</td>
                         <td>{{ $pat->name }}</td>
                         <td>{{ $pat->mobile }}</td>
@@ -32,7 +31,8 @@
                         <td>{{ ucwords($pat->cr_dr) }}</td>
                         <td>
                             @if (!$pat->ehr->status)
-                                <a href="{{ route('ehr_edit', ['id' => $pat->id]) }}" class="btn btn-sm btn-danger">Update
+                                <a href="{{ route('ehr_edit', ['patient' => $pat->id]) }}"
+                                    class="btn btn-sm btn-danger">Update
                                     EHR</a>
                             @else
                                 <a href="#" class="btn btn-sm btn-info">View EHR</a>

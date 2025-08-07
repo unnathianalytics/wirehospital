@@ -85,6 +85,10 @@
                 <button type="submit" class="btn btn-primary btn-sm focusable">
                     {{ $patient ? 'Update' : 'Create' }}
                 </button>
+                @if ($patient)
+                    <a class="btn btn-sm btn-danger" href="{{ route('ehr_edit', ['patient' => $patient->id]) }}">Health
+                        Record</a>
+                @endif
             </div>
 
 
