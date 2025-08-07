@@ -25,12 +25,14 @@
                             type="button" role="tab" aria-controls="eating" aria-selected="false">Eating
                             Habits</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="reproductive-tab" data-bs-toggle="tab"
-                            data-bs-target="#reproductive" type="button" role="tab" aria-controls="reproductive"
-                            aria-selected="false">Reproductive
-                            Health</button>
-                    </li>
+                    @if ($ehr->patient->gender == 'Female')
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="reproductive-tab" data-bs-toggle="tab"
+                                data-bs-target="#reproductive" type="button" role="tab"
+                                aria-controls="reproductive" aria-selected="false">Reproductive
+                                Health</button>
+                        </li>
+                    @endif
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="physical-tab" data-bs-toggle="tab" data-bs-target="#physical"
                             type="button" role="tab" aria-controls="physical" aria-selected="false">Physical
@@ -51,21 +53,14 @@
                                 <textarea class="form-select form-select-sm" id="present_complaints" wire:model="present_complaints" rows="4"></textarea>
                             </div>
                             <div class="col-md-6">
+                                <label for="past_complaints" class="form-label">Past Complaints</label>
+                                <textarea class="form-select form-select-sm" id="past_complaints" wire:model="past_complaints" rows="4"></textarea>
+                            </div>
+                            <div class="col-md-6">
                                 <label for="present_complaint_duration" class="form-label">Duration of Present
                                     Complaints</label>
                                 <input type="text" class="form-select form-select-sm focusable"
                                     id="present_complaint_duration" wire:model="present_complaint_duration">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="course_of_complaints" class="form-label">Course of Complaints</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="course_of_complaints" wire:model="course_of_complaints">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="past_complaints" class="form-label">Past Complaints</label>
-                                <textarea class="form-select form-select-sm" id="past_complaints" wire:model="past_complaints" rows="4"></textarea>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -76,13 +71,25 @@
                                     id="past_complaint_duration" wire:model="past_complaint_duration">
                             </div>
                         </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="course_of_complaints" class="form-label">Course of Complaints</label>
+                                <input type="text" class="form-select form-select-sm focusable"
+                                    id="course_of_complaints" wire:model="course_of_complaints">
+                            </div>
+
+                        </div>
+
                     </div>
                     <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="history_bp" class="form-label">History of Blood Pressure</label>
-                                <input type="text" class="form-select form-select-sm focusable" id="history_bp"
+                                <select class="form-select form-select-sm focusable" id="history_bp"
                                     wire:model="history_bp">
+                                    <option value="hyper">Hyper</option>
+                                    <option value="hypo">Hypo</option>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="bp_duration" class="form-label">BP Duration</label>
@@ -93,8 +100,12 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="history_sugar" class="form-label">History of Diabetes</label>
-                                <input type="text" class="form-select form-select-sm focusable" id="history_sugar"
+                                <select class="form-select form-select-sm focusable" id="history_bp"
                                     wire:model="history_sugar">
+                                    <option value="Diabetes Mellitus">Diabetes Mellitus</option>
+                                    <option value="Diabetes Insipidus">Diabetes Insipidus</option>
+                                </select>
+
                             </div>
                             <div class="col-md-6">
                                 <label for="sugar_duration" class="form-label">Diabetes Duration</label>
@@ -409,115 +420,121 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="reproductive" role="tabpanel" aria-labelledby="reproductive-tab">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="eao_rajah_pravritti_menarche" class="form-label">Menarche</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="eao_rajah_pravritti_menarche" wire:model="eao_rajah_pravritti_menarche">
+                    @if ($ehr->patient->gender == 'Female')
+                        <div class="tab-pane fade" id="reproductive" role="tabpanel"
+                            aria-labelledby="reproductive-tab">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="eao_rajah_pravritti_menarche" class="form-label">Menarche</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="eao_rajah_pravritti_menarche" wire:model="eao_rajah_pravritti_menarche">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="eao_rajah_pravritti_lmp" class="form-label">Last Menstrual
+                                        Period</label>
+                                    <input type="date" class="form-select form-select-sm focusable"
+                                        id="eao_rajah_pravritti_lmp" wire:model="eao_rajah_pravritti_lmp">
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <label for="eao_rajah_pravritti_lmp" class="form-label">Last Menstrual Period</label>
-                                <input type="date" class="form-select form-select-sm focusable"
-                                    id="eao_rajah_pravritti_lmp" wire:model="eao_rajah_pravritti_lmp">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="eao_rajah_pravritti_cycle" class="form-label">Menstrual Cycle</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="eao_rajah_pravritti_cycle" wire:model="eao_rajah_pravritti_cycle">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="eao_rajah_pravritti_cycle_nature" class="form-label">Cycle
+                                        Nature</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="eao_rajah_pravritti_cycle_nature"
+                                        wire:model="eao_rajah_pravritti_cycle_nature">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="eao_rajah_pravritti_bleeding_days" class="form-label">Bleeding
+                                        Days</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="eao_rajah_pravritti_bleeding_days"
+                                        wire:model="eao_rajah_pravritti_bleeding_days">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="eao_perimenopause" class="form-label">Perimenopause</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="eao_perimenopause" wire:model="eao_perimenopause">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="eao_menopause" class="form-label">Menopause</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="eao_menopause" wire:model="eao_menopause">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="eao_postmenopause" class="form-label">Postmenopause</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="eao_postmenopause" wire:model="eao_postmenopause">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="oh_no_deliveries" class="form-label">Number of Deliveries</label>
+                                    <input type="number" class="form-select form-select-sm focusable"
+                                        id="oh_no_deliveries" wire:model="oh_no_deliveries">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="oh_no_children" class="form-label">Number of Children</label>
+                                    <input type="number" class="form-select form-select-sm focusable"
+                                        id="oh_no_children" wire:model="oh_no_children">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="oh_type" class="form-label">Type of Delivery</label>
+                                    <input type="text" class="form-select form-select-sm focusable" id="oh_type"
+                                        wire:model="oh_type">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="oh_abortion" class="form-label">Abortion</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="oh_abortion" wire:model="oh_abortion">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="oh_abortion_no" class="form-label">Number of Abortions</label>
+                                    <input type="number" class="form-select form-select-sm focusable"
+                                        id="oh_abortion_no" wire:model="oh_abortion_no">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="oh_misscarriage" class="form-label">Miscarriage</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="oh_misscarriage" wire:model="oh_misscarriage">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="oh_misscarriage_no" class="form-label">Number of Miscarriages</label>
+                                    <input type="number" class="form-select form-select-sm focusable"
+                                        id="oh_misscarriage_no" wire:model="oh_misscarriage_no">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="oh_garbhini_soothika_charyaa" class="form-label">Garbhini Soothika
+                                        Charyaa</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="oh_garbhini_soothika_charyaa" wire:model="oh_garbhini_soothika_charyaa">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="oh_sterilisation" class="form-label">Sterilisation</label>
+                                    <input type="text" class="form-select form-select-sm focusable"
+                                        id="oh_sterilisation" wire:model="oh_sterilisation">
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="eao_rajah_pravritti_cycle" class="form-label">Menstrual Cycle</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="eao_rajah_pravritti_cycle" wire:model="eao_rajah_pravritti_cycle">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="eao_rajah_pravritti_cycle_nature" class="form-label">Cycle Nature</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="eao_rajah_pravritti_cycle_nature"
-                                    wire:model="eao_rajah_pravritti_cycle_nature">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="eao_rajah_pravritti_bleeding_days" class="form-label">Bleeding
-                                    Days</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="eao_rajah_pravritti_bleeding_days"
-                                    wire:model="eao_rajah_pravritti_bleeding_days">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="eao_perimenopause" class="form-label">Perimenopause</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="eao_perimenopause" wire:model="eao_perimenopause">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="eao_menopause" class="form-label">Menopause</label>
-                                <input type="text" class="form-select form-select-sm focusable" id="eao_menopause"
-                                    wire:model="eao_menopause">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="eao_postmenopause" class="form-label">Postmenopause</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="eao_postmenopause" wire:model="eao_postmenopause">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="oh_no_deliveries" class="form-label">Number of Deliveries</label>
-                                <input type="number" class="form-select form-select-sm focusable"
-                                    id="oh_no_deliveries" wire:model="oh_no_deliveries">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="oh_no_children" class="form-label">Number of Children</label>
-                                <input type="number" class="form-select form-select-sm focusable"
-                                    id="oh_no_children" wire:model="oh_no_children">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="oh_type" class="form-label">Type of Delivery</label>
-                                <input type="text" class="form-select form-select-sm focusable" id="oh_type"
-                                    wire:model="oh_type">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="oh_abortion" class="form-label">Abortion</label>
-                                <input type="text" class="form-select form-select-sm focusable" id="oh_abortion"
-                                    wire:model="oh_abortion">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="oh_abortion_no" class="form-label">Number of Abortions</label>
-                                <input type="number" class="form-select form-select-sm focusable"
-                                    id="oh_abortion_no" wire:model="oh_abortion_no">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="oh_misscarriage" class="form-label">Miscarriage</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="oh_misscarriage" wire:model="oh_misscarriage">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="oh_misscarriage_no" class="form-label">Number of Miscarriages</label>
-                                <input type="number" class="form-select form-select-sm focusable"
-                                    id="oh_misscarriage_no" wire:model="oh_misscarriage_no">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="oh_garbhini_soothika_charyaa" class="form-label">Garbhini Soothika
-                                    Charyaa</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="oh_garbhini_soothika_charyaa" wire:model="oh_garbhini_soothika_charyaa">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="oh_sterilisation" class="form-label">Sterilisation</label>
-                                <input type="text" class="form-select form-select-sm focusable"
-                                    id="oh_sterilisation" wire:model="oh_sterilisation">
-                            </div>
-                        </div>
-                    </div>
+                    @endif
+
                     <div class="tab-pane fade" id="physical" role="tabpanel" aria-labelledby="physical-tab">
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -841,13 +858,21 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    <button type="submit" class="btn btn-primary mt-3 mb-3">Submit</button>
                 </form>
+                <hr>
             </div>
             <div class="col-lg-3">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body mb-3">
                         <h6>{{ $ehr->patient->name }}</h6>
+                    </div>
+                    <div class="card-body mb-3">
+                        @if (session()->has('message'))
+                            <div class="alert alert-success">
+                                {{ session('message') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
