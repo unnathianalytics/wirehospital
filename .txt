@@ -1,0 +1,217 @@
+//Initials
++present_complaints{text}
++present_complaint_duration{text}
++course_of_complaints{text}
++past_complaints{text}
++past_complaint_duration{text}
+
++history_bp->Hyper/Hypo{select}
++bp_duration{text}
+
++history_sugar->Diabetes Mellitus/Diabetes Insipidus{select}
++sugar_duration{text}
+
++history_thyroid->Hyper/Hypo{select}
++thyroid_duration{text}
+
++others_history{text}
++family_hisory{text}
+
++treatment_history_type->Alopathy/Ayurveda/Naturopathy/Homeopathy/Others{select}
++treatment_history_medications{text}
++treatment_history_treatments{text}
+
+//Surgical History
++surgical_history{text}
+
+//Dinacharya
++wakesup_at{text}
++ushapana->Yes/No{select}
++ushapana_quantity{text}
++exercise->Yes/No{select}
++exercise_duation{text}
++bath{text}
++breakfast{text}
++nature_of_work{text}
++nature_of_work_timings{text}
+
++lunch{text}
++snacks{text}
++evening_exercise->Yes/No{select}
++evening_exercise_nature_duration{text}
++dinner{text}
++bedtime{text}
++vyasana->Alcohol/Smoke/Tobacco Chewing/Any Drugs/None{select}
++vyasana_duration{text}
++vyasana_frequency->Regular/Occational/Stopped{select}
+
+
+//Examinations & Observation
++eao_agni->Sama/Vishama/Teekshna/Manda{select}
++eao_appetite->Timely/Irregular{select}
++eao_food_intake->Timely/Irregular{select}
++eao_food_quantity->Normal/Less/More{select}
++eao_ruchi{text}
++eao_rasa_ichha->M/A/L/K/T/KA/Sarva Rasa{select}
++eao_nature->Veg/Mixed{select}
++eao_nature_frequency{text}
++eao_temperature_food_preferred_to_eat->Hot/Medium/Cold{select}
++eao_udara->Aadhmaana/Aatopa/Gurutva/Shoola/Daaha/Udgara{select}
++eao_udara_if{text}
++eao_water_intake_per_day{text}
++eao_water_intake_relation_with_food->Before/During/Immediately After/Later{select}
++eao_allergy_food->Yes/No{select}
++eao_allergy_medicine->Yes/No{select}
++eao_allergy_dust->Yes/No{select}
++eao_allergy_pollen_grains->Yes/No{select}
++eao_allergy_others{text}
+
+
++eao_nidraa->Good/Moderate/Bad/Nidra Bhramsha/Alpa Nidrata{select}
++eao_nidra_timings{text}
++eao_day_sleep->Yes/No{select}
++eao_day_sleep_duration{text}
++eao_gaatra->Guru/Laghu{select}
++eao_gaatra_symptoms{text}
+
+///only_female_patients
++eao_rajah_pravritti_menarche{text}
++eao_rajah_pravritti_lmp{text}
++eao_rajah_pravritti_cycle->Regular/Irregular{select}
++eao_rajah_pravritti_cycle_nature->Menorrhagia/Metroraahagia/Dysmenorrhea/Leucorrea/Oligomenorrhea{select}
++eao_rajah_pravritti_bleeding_days{text}
++eao_menopause{text}
+
+//Obstetric History
++oh_no_deliveries{text}
++oh_no_children{text}
++oh_type->Normal/LSCS/Forceps{select}
++oh_abortion->Yes/No{select}
++oh_abortion_no{text}
++oh_misscarriage->Yes/No{select}
++oh_misscarriage_no{text}
++oh_garbhini_soothika_charyaa->Yes/No{select}
+///
+
+
+
+//Ashta Sthana Pareeksha
++asp_naadee{text}
+
++asp_mutra_day{text}
++asp_mutra_night{text}
++asp_mutra_frequency->Increased/Decreased{select}
++asp_mutra_color->Clear/Yellow Tinged/Red Tinged/Yellowish/Occasionally Dark Yellow{select}
++asp_mutra_symptoms->Shoola/Daaha/Kandoo/Rakta/Phenila{select}
++asp_mutra_others{text}
+
++asp_mala_times->Daily Once/Daily Twice{select}
++asp_mala_pravrutti->Regular/Irregular/Constipated/With Pain/Blood{select}
++asp_mala_type->Hard/Soft/Watery{select}
++asp_mala_digetion->Completley Digested/Partially Digested{select}
++asp_mala_evacuation->Cleary Evacuated/Partial{select}
+
++asp_jihwa_color{text}
++asp_jihwa_coating->Coated/Uncoated{select}
++asp_jihwa_others->Cracks/Edges{select}
++asp_shabda{text}
++asp_sparsha->Ushna/Seetha/Snigdha/Ruksha{select}
++asp_drik{??}
+
++asp_akruthi_built{text}
++asp_akruthi_height{text}
++asp_akruthi_weight{text}
++asp_akruthi_bmi{text}
+
+//General Examination
++ge_bp{text}
++ge_pulse{text}
++ge_heart_rate{text}
++ge_temperature{text}
++ge_icterus->Present/Absent{select}
++ge_edema->Present/Absent{select}
++ge_edema_other{text}
++ge_cyanosis->Present/Absent{select}
++ge_lymph_node->Enlarged/Not Enlarged{select}
++ge_others{text}
+
+//Dasha Vidha Pareeksha
++dvp_desha->Jaangala/Aanoopa/Saadhaarana{select}
++dvp_dooshya{text}
++dvp_bala_roga->P/M/A{select}
++dvp_bala_rogi->P/M/A{select}
++dvp_kaala{text}
++dvp_anala{text}
++dvp_prakruti->Vaata/Pitta/Kapha{select}
++dvp_vaya->V/P/K{select}
++dvp_satva->P/M/A{select}
++dvp_satva_stress->Personal life/Friends/Marriage/Profession/Others{select}
++dvp_saatmya{text}
++dvp_vihaara_vyayama->Yoga/Gym/Walk/Aerobics/Jog/Only Routine Work{select}
++dvp_others{text}
+
++probable_diagnosis{text}
+
+//Treatment Plan
++tp_treatment_plan->Amamapaachana & Agnideepana/Shodha Prdhaana/Shodana Mridu/Shodhana Nitya/Shamana/Brihamana/Rasayana{select/multiple}
++tp_treatment_plan_guidelines{text}
++lab_reports{uploads}
+
+
+////////////////////////////////
+Followup Fields
+
+
++followup_date{text}
++previous_complaint_status{text}
++fresh_complaints_any{text}
++fresh_complaints_duration{text}
++asp_naadee{text}
++asp_mutra_day{text}
++asp_mutra_night{text}
++asp_mutra_frequency->Increased/Decreased{select}
++asp_mutra_color->Clear/Yellow Tinged/Red Tinged/Yellowish/Occasionally Dark Yellow{select}
++asp_mutra_symptoms->Shoola/Daaha/Kandoo/Rakta/Phenila{select}
++asp_mutra_others{text}
++asp_mala_times->Daily Once/Daily Twice{select}
++asp_mala_pravrutti->Regular/Irregular/Constipated/With Pain/Blood{select}
++asp_mala_type->Hard/Soft/Watery{select}
++asp_mala_digetion->Completley Digested/Partially Digested{select}
++asp_mala_evacuation->Cleary Evacuated/Partial{select}
++asp_jihwa_color{text}
++asp_jihwa_coating->Coated/Uncoated{select}
++asp_jihwa_others->Cracks/Edges{select}
++asp_shabda{text}
++asp_sparsha->Ushna/Seetha/Snigdha/Ruksha{select}
++asp_drik{??}
++eao_agni->Sama/Vishama/Teekshna/Manda{select}
++eao_appetite->Timely/Irregular{select}
++eao_food_intake->Timely/Irregular{select}
++eao_food_quantity->Normal/Less/More{select}
++eao_ruchi{text}
++eao_rasa_ichha->M/A/L/K/T/KA/Sarva Rasa{select}
++eao_udara->Aadhmaana/Aatopa/Gurutva/Shoola/Daaha/Udgara{select}
++eao_udara_if{text}
++eao_nidraa->Good/Moderate/Bad/Nidra Bhramsha/Alpa Nidrata{select}
++eao_gaatra->Guru/Laghu{select}
++eao_gaatra_symptoms{text}
++eao_rajah_pravritti_lmp{text}
++eao_rajah_pravritti_cycle->Regular/Irregular{select}
++eao_rajah_pravritti_cycle_nature->Menorrhagia/Metroraahagia/Dysmenorrhea/Leucorrea/Oligomenorrhea{select}
++eao_rajah_pravritti_bleeding_days{text}
++oh_no_deliveries{text}
++oh_no_children{text}
++oh_type->Normal/LSCS/Forceps{select}
++oh_abortion->Yes/No{select}
++oh_abortion_no{text}
++oh_misscarriage->Yes/No{select}
++oh_misscarriage_no{text}
++oh_garbhini_soothika_charyaa->Yes/No{select}
++bp
++grbs
++weight
++conclusion
++tp_treatment_plan->Amamapaachana & Agnideepana/Shodha Prdhaana/Shodana Mridu/Shodhana Nitya/Shamana/Brihamana/Rasayana{select/multiple}
++tp_treatment_plan_guidelines{text}
++probable_diagnosis{text}
++lab_reports{uploads}
