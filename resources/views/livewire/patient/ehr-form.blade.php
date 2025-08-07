@@ -131,8 +131,8 @@
                                 <textarea class="form-select form-select-sm" id="others_history" wire:model="others_history" rows="4"></textarea>
                             </div>
                             <div class="col-md-6">
-                                <label for="family_hisory" class="form-label">Family History</label>
-                                <textarea class="form-select form-select-sm" id="family_hisory" wire:model="family_hisory" rows="4"></textarea>
+                                <label for="family_history" class="form-label">Family History</label>
+                                <textarea class="form-select form-select-sm" id="family_history" wire:model="family_history" rows="4"></textarea>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -186,9 +186,9 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="exercise_duation" class="form-label">Exercise Duration</label>
+                                <label for="exercise_duration" class="form-label">Exercise Duration</label>
                                 <input type="text" class="form-select form-select-sm focusable"
-                                    id="exercise_duation" wire:model="exercise_duation">
+                                    id="exercise_duration" wire:model="exercise_duration">
                             </div>
                             <div class="col-md-6">
                                 <label for="bath" class="form-label">Bath</label>
@@ -867,13 +867,25 @@
                     <div class="card-body mb-3">
                         <h6>{{ $ehr->patient->name }}</h6>
                     </div>
-                    <div class="card-body mb-3">
-                        @if (session()->has('message'))
-                            <div class="alert alert-success">
-                                {{ session('message') }}
+                    @if ($errors->any())
+                        <div class="card-body mb-3">
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
+                    @if (session()->has('success'))
+                        <div class="card-body mb-3">
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        </div>
+                    @endif
+
                 </div>
             </div>
         </div>

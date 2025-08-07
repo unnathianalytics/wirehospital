@@ -29,7 +29,7 @@ return new
                     $table->text('history_thyroid')->nullable();
                     $table->text('thyroid_duration')->nullable();
                     $table->text('others_history')->nullable();
-                    $table->text('family_hisory')->nullable();
+                    $table->text('family_history')->nullable();
                     $table->text('treatment_history_type')->nullable();
                     $table->text('treatment_history_medications')->nullable();
                     $table->text('treatment_history_treatments')->nullable();
@@ -38,7 +38,7 @@ return new
                     $table->text('ushapana')->nullable();
                     $table->text('ushapana_quantity')->nullable();
                     $table->text('exercise')->nullable();
-                    $table->text('exercise_duation')->nullable();
+                    $table->text('exercise_duration')->nullable();
                     $table->text('bath')->nullable();
                     $table->text('breakfast')->nullable();
                     $table->text('nature_of_work')->nullable();
