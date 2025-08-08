@@ -28,51 +28,43 @@
         (() => {
             'use strict';
 
+            const root = document.documentElement;
+            const themeToggles = () => document.querySelectorAll('[data-bs-theme-value]');
+            const prefersDark = () => window.matchMedia('(prefers-color-scheme: dark)').matches;
+
             const getStoredTheme = () => localStorage.getItem('theme');
             const setStoredTheme = (theme) => localStorage.setItem('theme', theme);
-            const getPreferredTheme = () => {
-                const storedTheme = getStoredTheme();
-                if (storedTheme) return storedTheme;
-                return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            };
+            const getPreferredTheme = () => getStoredTheme() || (prefersDark() ? 'dark' : 'light');
 
             const setTheme = (theme) => {
-                const value = theme === 'auto' ?
-                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') :
-                    theme;
-                document.documentElement.setAttribute('data-bs-theme', value);
+                root.setAttribute('data-bs-theme',
+                    theme === 'auto' ? (prefersDark() ? 'dark' : 'light') : theme
+                );
             };
 
             const showActiveTheme = (theme, settingsSwitcher) => {
-                document.querySelectorAll('[data-bs-theme-value]').forEach((element) => {
-                    element.classList.remove('active');
-                    element.setAttribute('aria-pressed', 'false');
-                    if (element.getAttribute('data-bs-theme-value') === theme) {
-                        element.classList.add('active');
-                        element.setAttribute('aria-pressed', 'true');
-                    }
+                themeToggles().forEach(el => {
+                    const isActive = el.getAttribute('data-bs-theme-value') === theme;
+                    el.classList.toggle('active', isActive);
+                    el.setAttribute('aria-pressed', String(isActive));
                 });
-                if (settingsSwitcher) settingsSwitcher.focus();
+                settingsSwitcher?.focus();
             };
-
-            // Expose to global so Livewire can call later
-            window.setTheme = setTheme;
-            window.showActiveTheme = showActiveTheme;
-            window.getPreferredTheme = getPreferredTheme;
-
+            Object.assign(window, {
+                setTheme,
+                showActiveTheme,
+                getPreferredTheme
+            });
             setTheme(getPreferredTheme());
-
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-                const storedTheme = getStoredTheme();
-                if (storedTheme !== 'light' && storedTheme !== 'dark') {
+                if (!['light', 'dark'].includes(getStoredTheme())) {
                     setTheme(getPreferredTheme());
                 }
             });
-
             window.addEventListener('DOMContentLoaded', () => {
                 showActiveTheme(getPreferredTheme());
-                document.querySelectorAll('[data-bs-theme-value]').forEach((toggle) => {
-                    toggle.addEventListener('click', (e) => {
+                themeToggles().forEach(toggle => {
+                    toggle.addEventListener('click', e => {
                         e.preventDefault();
                         const theme = toggle.getAttribute('data-bs-theme-value');
                         const settingsSwitcher = toggle.closest('.nav-item')?.querySelector(
@@ -80,13 +72,11 @@
                         setStoredTheme(theme);
                         setTheme(theme);
                         showActiveTheme(theme, settingsSwitcher);
-                        if (typeof refreshCharts === 'function') refreshCharts();
                     });
                 });
             });
         })();
     </script>
-
     @stack('body-styles')
 </head>
 

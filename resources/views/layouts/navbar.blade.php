@@ -316,6 +316,14 @@
                             aria-pressed="false"> <span class="material-symbols-outlined me-2">contrast</span> Auto
                         </a>
                         <hr>
+                        <a href="{{ route('logout') }}" class="dropdown-item d-flex"
+                            onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+                            <span class="material-symbols-outlined me-2">logout</span> Logout
+                        </a>
+                        <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                        <hr>
                         <h6 class="dropdown-header">Change Financial Year</h6>
                         @livewire('financial-year-selector')
                     </div>
