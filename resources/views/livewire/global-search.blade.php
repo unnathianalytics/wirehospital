@@ -1,5 +1,5 @@
 <div class="position-relative w-100">
-    <input type="text" wire:model.live="query" class="form-control form-control-sm" placeholder="Search..."
+    <input type="text" wire:model.live="query" class="form-select form-select-sm" placeholder="Search..."
         autocomplete="off">
 
     @if (!empty($results))

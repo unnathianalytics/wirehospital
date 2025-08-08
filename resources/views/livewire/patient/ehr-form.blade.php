@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-9">
                 <h2 class="mb-4">Medical History Form</h2>
-                <ul class="nav nav-pills" id="medicalFormTabs" role="tablist">
+                <ul class="nav nav-underline" id="medicalFormTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="complaints-tab" data-bs-toggle="tab"
                             data-bs-target="#complaints" type="button" role="tab" aria-controls="complaints"

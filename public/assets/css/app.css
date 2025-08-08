@@ -29,8 +29,10 @@ body {
 }
 
 .form-label {
-    border-bottom: 1px solid red;
+    border-bottom: 1px solid #ededed;
     width: 100%;
+    font-size: .8rem;
+    font-weight: 700;
 }
 
 .dropdown-item {
@@ -41,6 +43,13 @@ body {
 .form-select-sm,
 .btn-sm {
     padding: .2rem .5rem !important;
+    border: 1px solid #cccccc;
+
+
+}
+
+*:focus {
+    box-shadow: none !important;
 }
 
 .table-sm>:not(caption)>*>* {
