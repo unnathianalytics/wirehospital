@@ -99,7 +99,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/autocomplete-items', function (\Illuminate\Http\Request $request) {
         $term = $request->get('term');
         $results = Item::where('name', 'like', "%{$term}%")
-            ->limit(15)
+            ->limit(8)
             ->get()
             ->map(fn($item) => [
                 'label' => $item->name,

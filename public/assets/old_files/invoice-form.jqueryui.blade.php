@@ -1,10 +1,4 @@
-@push('css')
-@endpush
-
 @push('body-styles')
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css" />
-
     <style>
         .item-id-input {
             width: 0;
@@ -14,57 +8,6 @@
             margin: 0;
             position: absolute;
             opacity: 0;
-        }
-
-        /* Container */
-        .selectize-control.single .selectize-input {
-            border: 1px solid #d0d7de;
-            /* Excel-like grid border */
-            border-radius: 0;
-            padding: 2px 4px;
-            /* Compact cell padding */
-            min-height: auto;
-            height: 22px;
-            /* Excel-ish row height */
-            font-size: 13px;
-            line-height: 1.4;
-            background-color: #fff;
-            box-shadow: none;
-        }
-
-        /* Focus outline similar to Excel active cell */
-        .selectize-control.single .selectize-input.focus {
-            border-color: #217346;
-            /* Excel green */
-            box-shadow: inset 0 0 0 1px #217346;
-        }
-
-        /* Remove extra caret padding */
-        .selectize-control.single .selectize-input:after {
-            right: 4px;
-        }
-
-        /* Dropdown styling */
-        .selectize-dropdown {
-            border: 1px solid #d0d7de;
-            font-size: 13px;
-        }
-
-        /* Dropdown items */
-        .selectize-dropdown .selectize-dropdown-content .option {
-            padding: 2px 4px;
-            line-height: 1.4;
-        }
-
-        /* Highlighted option */
-        .selectize-dropdown .option.active {
-            background-color: #e5f1e8;
-            /* light Excel-like highlight */
-            color: #000;
-        }
-
-        .form-select-sm {
-            border-radius: 0px;
         }
     </style>
 @endpush
@@ -364,7 +307,6 @@
     @endif
 </div>
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"></script>
     <script>
         (function() {
             if (window.invoiceFormScriptInitialized) {
@@ -374,65 +316,57 @@
 
             let listenerBound = false;
 
-            function bindSelectize($elements) {
-                if (typeof $.fn.selectize === 'undefined') {
-                    console.error('Selectize is not loaded');
+            function bindAutocomplete($elements) {
+                if (typeof $.fn.autocomplete === 'undefined') {
+                    console.error('jQuery UI Autocomplete is not loaded');
                     return;
                 }
                 $elements.each(function() {
                     const $input = $(this);
-                    if ($input.hasClass('selectize-bound')) return;
+                    if ($input.hasClass('autocomplete-bound')) return;
                     const index = $input.data('index');
-                    $input.addClass('selectize-bound');
-                    let initialLabel = $input.val();
-                    let initialValue = $(`#item_id_${index}`).val();
-                    let initialOptions = [];
-                    if (initialValue && initialLabel) {
-                        initialOptions = [{
-                            value: initialValue,
-                            label: initialLabel
-                        }];
-                    }
-                    const selectizeInstance = $input.selectize({
-                        options: initialOptions,
-                        valueField: 'value',
-                        labelField: 'label',
-                        searchField: ['label'],
-                        maxItems: 1,
-                        create: false,
-                        preload: 'focus',
-                        openOnFocus: true,
-                        load: function(query, callback) {
+                    $input.addClass('autocomplete-bound');
+                    $input.autocomplete({
+                        source: function(request, response) {
                             $.get("{{ route('autocomplete.items') }}", {
-                                term: query,
-                                invoice_type_id: '{{ $invoiceData['invoice_type_id'] }}'
-                            }).done(function(data) {
-                                callback(data);
-                            }).fail(function() {
-                                callback();
-                            });
+                                    term: request.term,
+                                    invoice_type_id: '{{ $invoiceData['invoice_type_id'] }}'
+                                })
+                                .done(function(data) {
+                                    response(data);
+                                })
+                                .fail(function(jqXHR, textStatus, errorThrown) {
+                                    response([]);
+                                });
                         },
-                        onChange: function(value) {
-                            const $idInput = $(`#item_id_${index}`);
-                            $idInput.val(value);
-                            const inputEvent = new Event('input', {
-                                bubbles: true
-                            });
-                            $idInput[0].dispatchEvent(inputEvent);
-                            Livewire.dispatchTo('transaction.invoice-form', 'update', {
-                                name: `invoiceItems.${index}.item_id`,
-                                value: value
-                            });
-                            if (value) {
-                                const $quantityInput = $(`#quantity_${index}`);
+                        minLength: 0, // Set minLength to 0 to allow empty search
+                        select: function(event, ui) {
+                            const $textInput = $(`#item_id_${index}`);
+                            const $quantityInput = $(`#quantity_${index}`);
+                            setTimeout(() => {
+                                $textInput.val(ui.item.value);
+                                const inputEvent = new Event('input', {
+                                    bubbles: true
+                                });
+                                $textInput[0].dispatchEvent(inputEvent);
+                                Livewire.dispatchTo('transaction.invoice-form',
+                                    'update', {
+                                        name: `invoiceItems.${index}.item_id`,
+                                        value: ui.item.value
+                                    });
                                 $quantityInput.focus();
-                            }
+                            }, 50);
+                            $input.val(ui.item.label);
+                            return false;
+                        },
+                        focus: function(event, ui) {
+                            // Prevent the input value from changing on focus
+                            return false;
                         }
-                    })[0].selectize;
-                    if (initialValue) {
-                        selectizeInstance.setValue(initialValue, true);
-                    }
-                    selectizeInstance.$control_input.addClass('focusable');
+                    }).on('focus', function() {
+                        // Trigger search on focus to show all options
+                        $(this).autocomplete('search', '');
+                    });
                 });
             }
 
@@ -469,7 +403,7 @@
             }
 
             function initializeUIEnhancements() {
-                bindSelectize($('.item-autocomplete:not(.selectize-bound)'));
+                bindAutocomplete($('.item-autocomplete:not(.autocomplete-bound)'));
                 initializeEnterKeyNavigation();
             }
             ['DOMContentLoaded', 'livewire:updated', 'livewire:navigated'].forEach(event => {
@@ -478,12 +412,12 @@
 
             window.addEventListener('item-row-added', () => {
                 setTimeout(() => {
-                    const $newInputs = $('.item-autocomplete:not(.selectize-bound)');
+                    const $newInputs = $('.item-autocomplete:not(.autocomplete-bound)');
                     if ($newInputs.length > 0) {
-                        bindSelectize($newInputs);
+                        bindAutocomplete($newInputs);
                         const newIndex = $newInputs.first().data('index');
-                        const $newInput = $(`#item_name_${newIndex}`);
-                        $newInput[0].selectize.focus();
+                        const $newAutocomplete = $(`#item_name_${newIndex}`);
+                        $newAutocomplete.focus();
                     }
                 }, 100);
             });
