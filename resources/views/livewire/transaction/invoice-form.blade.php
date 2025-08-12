@@ -63,8 +63,23 @@
             color: #000;
         }
 
+        td input.form-select-sm,
+        td select.form-select-sm {
+            border-top: 0px !important;
+            border-bottom: 1px solid !important;
+        }
+
         .form-select-sm {
             border-radius: 0px;
+        }
+
+        tbody,
+        td,
+        tfoot,
+        th,
+        thead,
+        tr {
+            border: none;
         }
     </style>
 @endpush
@@ -127,7 +142,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="table-responsive scrollable-table" style="min-height: 150px; max-height: 200px;">
+                    <div class="table-responsive scrollable-table" style="min-height: 200px; max-height: 200px;">
                         <table class="table table-sm">
                             <thead>
                                 <tr>
