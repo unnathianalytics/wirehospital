@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-lg-12 mb-3">
                         <label class="form-label">Address</label>
-                        <input type="text" wire:model="address" class="form-select form-select-sm focusable" />
+                        <textarea type="text" wire:model="address" rows="4" class="form-control form-control-sm focusable"></textarea>
                     </div>
                     <div class="col-lg-3 mb-3">
                         <label class="form-label">Mobile</label>
