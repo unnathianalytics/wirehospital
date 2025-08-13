@@ -84,7 +84,7 @@
     @if (Auth::check())
         @include('layouts.navbar')
     @endif
-    <div class="container-fluid mt-3">
+    <div class="container-fluid mt-3 main">
         @yield('content')
     </div>
     @if (Auth::check())
