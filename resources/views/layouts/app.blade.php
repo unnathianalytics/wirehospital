@@ -19,9 +19,9 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
-    <link rel="stylesheet" href="https://yevgenysim-turkey.github.io/dashbrd/assets/css/libs.bundle.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/libs.bundle.css') }}" />
     <!-- Theme CSS -->
-    <link rel="stylesheet" href="https://yevgenysim-turkey.github.io/dashbrd/assets/css/theme.bundle.css" />
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.bundle.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.min.css') }}?v={{ date('YmdHis') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}?v={{ date('YmdHis') }}">
     <script>
@@ -91,10 +91,10 @@
         @include('layouts.footer')
     @endif
 
-    <script data-navigate-once="true" src="https://yevgenysim-turkey.github.io/dashbrd/assets/js/vendor.bundle.js"></script>
+    <script data-navigate-once="true" src="{{ asset('assets/js/vendor.bundle.js') }}"></script>
 
     <!-- Theme JS -->
-    <script data-navigate-once="true" src="https://yevgenysim-turkey.github.io/dashbrd/assets/js/theme.bundle.js"></script>
+    <script data-navigate-once="true" src="{{ asset('assets/js/theme.bundle.js') }}"></script>
     </script>
     <script data-navigate-once="true" src="{{ asset('assets/js/jquery.js') }}?v={{ date('YmdHis') }}"></script>
     <script data-navigate-once="true" src="{{ asset('assets/js/jquery-ui.min.js') }}?v={{ date('YmdHis') }}"></script>

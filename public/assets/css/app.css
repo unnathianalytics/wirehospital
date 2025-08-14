@@ -79,8 +79,9 @@ nav.navbar {
 }
 
 .table-sm thead tr th {
-    background-color: #2a6d6e;
-    color: #fff;
+    /* background-color: #2a6d6e;
+    color: #fff; */
+    border: 1px solid;
 }
 
 footer {

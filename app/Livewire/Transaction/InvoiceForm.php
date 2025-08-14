@@ -531,7 +531,7 @@ class InvoiceForm extends Component
             'invoiceItems.*.item_description3' => 'nullable|string|max:255',
             'invoiceItems.*.item_description4' => 'nullable|string|max:255',
             'invoiceItems.*.hsn_sac' => 'string|max:8',
-            'invoiceItems.*.uom_id' => 'nullable',
+            'invoiceItems.*.uom_id' => 'required',
             'invoiceItems.*.quantity' => 'required|numeric|min:0.01',
             'invoiceItems.*.base_quantity' => 'nullable',
             'invoiceItems.*.batch_no' => 'nullable|string|max:50',
