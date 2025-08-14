@@ -139,15 +139,6 @@
 
         <!-- Collapse -->
         <div class="collapse navbar-collapse" id="topnavBaseCollapse">
-            <!-- Search -->
-            <div class="input-group d-xl-none my-4 my-xl-0">
-                <input class="form-control" id="topnavSearchInputMobile" type="search" placeholder="Search"
-                    aria-label="Search" aria-describedby="navbarSearchMobile">
-                <span class="input-group-text" id="navbarSearchMobile">
-                    <span class="material-symbols-outlined">search</span>
-                </span>
-            </div>
-
             <!-- Nav -->
             <nav class="navbar-nav nav-pills mx-auto">
                 <div class="nav-item dropdown">
@@ -287,7 +278,7 @@
                                 class="badge text-bg-primary ms-auto">1.0.6</span></a>
                     </div>
                 </div>
-                <div class="my-4 my-xl-0">
+                <div class="my-4 my-xl-0" style="display: flex; align-items: center;">
                     <livewire:global-search />
                 </div>
             </nav>

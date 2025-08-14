@@ -390,24 +390,39 @@
             let listenerBound = false;
 
             function bindSelectize($elements) {
-                if (typeof $.fn.selectize === 'undefined') {
-                    console.error('Selectize is not loaded');
+                if (typeof $ === 'undefined' || typeof $.fn.selectize === 'undefined') {
+                    console.error('jQuery or Selectize is not loaded');
                     return;
                 }
+
                 $elements.each(function() {
                     const $input = $(this);
-                    if ($input.hasClass('selectize-bound')) return;
+
+                    // Skip if already bound or element is not in DOM
+                    if ($input.hasClass('selectize-bound') || !$input.is(':visible') || !$input.closest('body')
+                        .length) {
+                        return;
+                    }
+
                     const index = $input.data('index');
+                    if (index === undefined) {
+                        console.warn('Missing data-index for selectize input');
+                        return;
+                    }
+
                     $input.addClass('selectize-bound');
+
                     let initialLabel = $input.val();
                     let initialValue = $(`#item_id_${index}`).val();
                     let initialOptions = [];
+
                     if (initialValue && initialLabel) {
                         initialOptions = [{
                             value: initialValue,
                             label: initialLabel
                         }];
                     }
+
                     const selectizeInstance = $input.selectize({
                         options: initialOptions,
                         valueField: 'value',
@@ -429,25 +444,40 @@
                         },
                         onChange: function(value) {
                             const $idInput = $(`#item_id_${index}`);
-                            $idInput.val(value);
-                            const inputEvent = new Event('input', {
-                                bubbles: true
-                            });
-                            $idInput[0].dispatchEvent(inputEvent);
-                            Livewire.dispatchTo('transaction.invoice-form', 'update', {
-                                name: `invoiceItems.${index}.item_id`,
-                                value: value
-                            });
+                            if ($idInput.length) {
+                                $idInput.val(value);
+                                const inputEvent = new Event('input', {
+                                    bubbles: true
+                                });
+                                $idInput[0].dispatchEvent(inputEvent);
+                            }
+
+                            // Use modern Livewire 3 dispatch method
+                            if (window.Livewire) {
+                                Livewire.dispatch('update', {
+                                    name: `invoiceItems.${index}.item_id`,
+                                    value: value
+                                });
+                            }
+
                             if (value) {
-                                const $quantityInput = $(`#quantity_${index}`);
-                                $quantityInput.focus();
+                                setTimeout(() => {
+                                    const $quantityInput = $(`#quantity_${index}`);
+                                    if ($quantityInput.length) {
+                                        $quantityInput.focus();
+                                    }
+                                }, 50);
                             }
                         }
                     })[0].selectize;
-                    if (initialValue) {
+
+                    if (initialValue && selectizeInstance) {
                         selectizeInstance.setValue(initialValue, true);
                     }
-                    selectizeInstance.$control_input.addClass('focusable');
+
+                    if (selectizeInstance && selectizeInstance.$control_input) {
+                        selectizeInstance.$control_input.addClass('focusable');
+                    }
                 });
             }
 
@@ -455,26 +485,17 @@
                 if (e.key === 'Enter' && e.target.classList.contains('focusable')) {
                     e.preventDefault();
                     const input = e.target;
+
                     if (input.classList.contains('amount-input')) {
                         const confirmAdd = window.confirm('Add another item?');
-                        if (confirmAdd) {
-                            try {
-                                const component = Livewire.find(document.querySelector('[wire\\:id]').getAttribute(
-                                    'wire:id'));
-                                if (component) {
-                                    component.call('addItemRow');
-                                } else {
-                                    console.error('Livewire component not found');
-                                }
-                                Livewire.dispatchTo('transaction.invoice-form', 'addItemRow');
-                            } catch (error) {
-                                console.error('Failed to dispatch addItemRow:', error);
-                            }
+                        if (confirmAdd && window.Livewire) {
+                            Livewire.dispatch('addItemRow');
                         }
                     } else {
-                        const focusableInputs = document.querySelectorAll('.focusable');
+                        const focusableInputs = document.querySelectorAll('.focusable:visible');
                         const currentIndex = Array.from(focusableInputs).indexOf(input);
                         const nextIndex = currentIndex + 1;
+
                         if (nextIndex < focusableInputs.length) {
                             const nextInput = focusableInputs[nextIndex];
                             nextInput.focus();
@@ -483,36 +504,93 @@
                 }
             }
 
-            function initializeUIEnhancements() {
-                bindSelectize($('.item-autocomplete:not(.selectize-bound)'));
-                initializeEnterKeyNavigation();
+            function initializeEnterKeyNavigation() {
+                if (!listenerBound) {
+                    document.addEventListener('keydown', handleEnterKey);
+                    listenerBound = true;
+                }
             }
-            ['DOMContentLoaded', 'livewire:updated', 'livewire:navigated'].forEach(event => {
-                document.addEventListener(event, initializeUIEnhancements);
+
+            function initializeUIEnhancements() {
+                // Add delay to ensure DOM is fully rendered
+                setTimeout(() => {
+                    const $unboundInputs = $('.item-autocomplete:not(.selectize-bound)');
+                    if ($unboundInputs.length > 0) {
+                        bindSelectize($unboundInputs);
+                    }
+                    initializeEnterKeyNavigation();
+                }, 100);
+            }
+
+            function cleanupSelectize() {
+                // Clean up destroyed selectize instances
+                $('.item-autocomplete').each(function() {
+                    const $input = $(this);
+                    if ($input.hasClass('selectize-bound') && !$input.closest('body').length) {
+                        $input.removeClass('selectize-bound');
+                        if ($input[0].selectize) {
+                            $input[0].selectize.destroy();
+                        }
+                    }
+                });
+            }
+
+            // Enhanced event listeners for Livewire 3
+            document.addEventListener('DOMContentLoaded', initializeUIEnhancements);
+
+            // Livewire 3 events
+            document.addEventListener('livewire:navigated', () => {
+                cleanupSelectize();
+                initializeUIEnhancements();
             });
 
+            document.addEventListener('livewire:updated', () => {
+                initializeUIEnhancements();
+            });
+
+            // Legacy Livewire events (fallback)
+            window.addEventListener('livewire:load', initializeUIEnhancements);
+            window.addEventListener('livewire:update', initializeUIEnhancements);
+
+            // Custom event for new item rows
             window.addEventListener('item-row-added', () => {
                 setTimeout(() => {
                     const $newInputs = $('.item-autocomplete:not(.selectize-bound)');
                     if ($newInputs.length > 0) {
                         bindSelectize($newInputs);
                         const newIndex = $newInputs.first().data('index');
-                        const $newInput = $(`#item_name_${newIndex}`);
-                        $newInput[0].selectize.focus();
+                        if (newIndex !== undefined) {
+                            const $newInput = $(`#item_name_${newIndex}`);
+                            if ($newInput.length && $newInput[0].selectize) {
+                                $newInput[0].selectize.focus();
+                            }
+                        }
                     }
-                }, 100);
+                }, 150);
             });
 
-
+            // Material center change confirmation
             window.addEventListener('confirm-material-center-change', () => {
                 if (!confirm('Changing the Store will update all invoice items. Continue?')) {
-                    const originalMcId = '{{ old('mc_id', $invoice->store_id) }}';
-                    Livewire.dispatchTo('transaction.invoice-form', 'set', {
-                        name: 'mc_id',
-                        value: originalMcId
-                    });
+                    const originalMcId = '{{ old('mc_id', $invoice->store_id ?? '') }}';
+                    if (window.Livewire) {
+                        Livewire.dispatch('set', {
+                            name: 'mc_id',
+                            value: originalMcId
+                        });
+                    }
                 }
             });
+
+            // Periodically check for unbound inputs (safety net)
+            setInterval(() => {
+                const $unboundInputs = $('.item-autocomplete:not(.selectize-bound):visible');
+                if ($unboundInputs.length > 0) {
+                    console.log('Found unbound selectize inputs, initializing...');
+                    bindSelectize($unboundInputs);
+                }
+            }, 2000);
+
         })();
     </script>
 @endpush
