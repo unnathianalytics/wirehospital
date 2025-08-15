@@ -24,13 +24,6 @@
       0 => 'Laravel\\Mcp\\Server\\McpServiceProvider',
     ),
   ),
-  'laravel/pail' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Pail\\PailServiceProvider',
-    ),
-  ),
   'laravel/roster' => 
   array (
     'providers' => 
