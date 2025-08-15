@@ -15,6 +15,17 @@ class GlobalSearch extends Component
         $this->search();
     }
 
+    private function highlightText($text, $query)
+    {
+        if (empty($query) || empty($text)) {
+            return $text;
+        }
+        $escapedQuery = preg_quote($query, '/');
+        $pattern = "/\\b($escapedQuery)/i";
+
+        return preg_replace($pattern, '<mark class="bg-warning text-dark">$1</mark>', $text);
+    }
+
     public function search()
     {
         $this->results = []; // Clear results at the start
@@ -45,7 +56,7 @@ class GlobalSearch extends Component
                 $this->results[] = [
                     'query' => $query,
                     'label' => $meta['label'],
-                    'items' => $records->map(function ($record) use ($meta) {
+                    'items' => $records->map(function ($record) use ($meta, $query) {
                         $routeParams = [];
                         if (isset($meta['route_params'])) {
                             foreach ($meta['route_params'] as $paramKey => $source) {
@@ -73,9 +84,9 @@ class GlobalSearch extends Component
                         }
 
                         return [
-                            'title' => $title,
-                            'subtitle' => $subtitle,
-                            'query' => $this->query,
+                            'title' => $this->highlightText($title, $query),
+                            'subtitle' => $this->highlightText($subtitle, $query),
+                            'query' => $query,
                             'url' => route($meta['route_name'] ?? $meta['route'], $routeParams),
                         ];
                     })->toArray(),

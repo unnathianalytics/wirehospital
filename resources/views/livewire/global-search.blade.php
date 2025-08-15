@@ -12,8 +12,8 @@
                 @foreach ($group['items'] as $item)
                     <div class="dropdown-item" wire:ignore>
                         <a href="{{ $item['url'] }}" class="d-block text-decoration-none">
-                            <div class="fw-semibold small">{{ $item['title'] }}</div>
-                            <div class="small">{{ $item['subtitle'] }}</div>
+                            <div class="fw-semibold small">{!! $item['title'] !!}</div>
+                            <div class="small">{!! $item['subtitle'] !!}</div>
                             {{-- <div class="small">Query: {{ $item['query'] }}</div> --}}
                         </a>
                     </div>
@@ -23,4 +23,16 @@
             @endforeach
         </div>
     @endif
+
+    {{-- Add some custom CSS for better highlight styling --}}
+    <style>
+        .dropdown-item mark {
+            padding: 1px 2px;
+            border-radius: 2px;
+        }
+
+        .dropdown-item:hover mark {
+            background-color: #ffc107 !important;
+        }
+    </style>
 </div>
