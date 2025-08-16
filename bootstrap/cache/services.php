@@ -18,12 +18,12 @@
     14 => 'Illuminate\\Pagination\\PaginationServiceProvider',
     15 => 'Illuminate\\Auth\\Passwords\\PasswordResetServiceProvider',
     16 => 'Illuminate\\Pipeline\\PipelineServiceProvider',
-    17 => 'Illuminate\\Redis\\RedisServiceProvider',
-    18 => 'Illuminate\\Session\\SessionServiceProvider',
-    19 => 'Illuminate\\Translation\\TranslationServiceProvider',
-    20 => 'Illuminate\\Validation\\ValidationServiceProvider',
-    21 => 'Illuminate\\View\\ViewServiceProvider',
-    22 => 'Gecche\\Multidomain\\Foundation\\Providers\\DomainConsoleServiceProvider',
+    17 => 'Illuminate\\Queue\\QueueServiceProvider',
+    18 => 'Illuminate\\Redis\\RedisServiceProvider',
+    19 => 'Illuminate\\Session\\SessionServiceProvider',
+    20 => 'Illuminate\\Translation\\TranslationServiceProvider',
+    21 => 'Illuminate\\Validation\\ValidationServiceProvider',
+    22 => 'Illuminate\\View\\ViewServiceProvider',
     23 => 'Laravel\\Boost\\BoostServiceProvider',
     24 => 'Laravel\\Mcp\\Server\\McpServiceProvider',
     25 => 'Laravel\\Roster\\RosterServiceProvider',
@@ -37,8 +37,7 @@
     33 => 'Pest\\Laravel\\PestServiceProvider',
     34 => 'Spatie\\Activitylog\\ActivitylogServiceProvider',
     35 => 'Spatie\\Permission\\PermissionServiceProvider',
-    36 => 'Gecche\\Multidomain\\Queue\\QueueServiceProvider',
-    37 => 'App\\Providers\\AppServiceProvider',
+    36 => 'App\\Providers\\AppServiceProvider',
   ),
   'eager' => 
   array (
@@ -52,19 +51,18 @@
     7 => 'Illuminate\\Pagination\\PaginationServiceProvider',
     8 => 'Illuminate\\Session\\SessionServiceProvider',
     9 => 'Illuminate\\View\\ViewServiceProvider',
-    10 => 'Gecche\\Multidomain\\Foundation\\Providers\\DomainConsoleServiceProvider',
-    11 => 'Laravel\\Boost\\BoostServiceProvider',
-    12 => 'Laravel\\Mcp\\Server\\McpServiceProvider',
-    13 => 'Laravel\\Roster\\RosterServiceProvider',
-    14 => 'Laravel\\Ui\\UiServiceProvider',
-    15 => 'Livewire\\LivewireServiceProvider',
-    16 => 'Carbon\\Laravel\\ServiceProvider',
-    17 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    18 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    19 => 'Pest\\Laravel\\PestServiceProvider',
-    20 => 'Spatie\\Activitylog\\ActivitylogServiceProvider',
-    21 => 'Spatie\\Permission\\PermissionServiceProvider',
-    22 => 'App\\Providers\\AppServiceProvider',
+    10 => 'Laravel\\Boost\\BoostServiceProvider',
+    11 => 'Laravel\\Mcp\\Server\\McpServiceProvider',
+    12 => 'Laravel\\Roster\\RosterServiceProvider',
+    13 => 'Laravel\\Ui\\UiServiceProvider',
+    14 => 'Livewire\\LivewireServiceProvider',
+    15 => 'Carbon\\Laravel\\ServiceProvider',
+    16 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    17 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    18 => 'Pest\\Laravel\\PestServiceProvider',
+    19 => 'Spatie\\Activitylog\\ActivitylogServiceProvider',
+    20 => 'Spatie\\Permission\\PermissionServiceProvider',
+    21 => 'App\\Providers\\AppServiceProvider',
   ),
   'deferred' => 
   array (
@@ -206,6 +204,11 @@
     'auth.password.broker' => 'Illuminate\\Auth\\Passwords\\PasswordResetServiceProvider',
     'Illuminate\\Contracts\\Pipeline\\Hub' => 'Illuminate\\Pipeline\\PipelineServiceProvider',
     'pipeline' => 'Illuminate\\Pipeline\\PipelineServiceProvider',
+    'queue' => 'Illuminate\\Queue\\QueueServiceProvider',
+    'queue.connection' => 'Illuminate\\Queue\\QueueServiceProvider',
+    'queue.failer' => 'Illuminate\\Queue\\QueueServiceProvider',
+    'queue.listener' => 'Illuminate\\Queue\\QueueServiceProvider',
+    'queue.worker' => 'Illuminate\\Queue\\QueueServiceProvider',
     'redis' => 'Illuminate\\Redis\\RedisServiceProvider',
     'redis.connection' => 'Illuminate\\Redis\\RedisServiceProvider',
     'translator' => 'Illuminate\\Translation\\TranslationServiceProvider',
@@ -216,11 +219,6 @@
     'Laravel\\Sail\\Console\\InstallCommand' => 'Laravel\\Sail\\SailServiceProvider',
     'Laravel\\Sail\\Console\\PublishCommand' => 'Laravel\\Sail\\SailServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
-    'queue' => 'Gecche\\Multidomain\\Queue\\QueueServiceProvider',
-    'queue.connection' => 'Gecche\\Multidomain\\Queue\\QueueServiceProvider',
-    'queue.failer' => 'Gecche\\Multidomain\\Queue\\QueueServiceProvider',
-    'queue.listener' => 'Gecche\\Multidomain\\Queue\\QueueServiceProvider',
-    'queue.worker' => 'Gecche\\Multidomain\\Queue\\QueueServiceProvider',
   ),
   'when' => 
   array (
@@ -251,6 +249,9 @@
     'Illuminate\\Pipeline\\PipelineServiceProvider' => 
     array (
     ),
+    'Illuminate\\Queue\\QueueServiceProvider' => 
+    array (
+    ),
     'Illuminate\\Redis\\RedisServiceProvider' => 
     array (
     ),
@@ -264,9 +265,6 @@
     array (
     ),
     'Laravel\\Tinker\\TinkerServiceProvider' => 
-    array (
-    ),
-    'Gecche\\Multidomain\\Queue\\QueueServiceProvider' => 
     array (
     ),
   ),

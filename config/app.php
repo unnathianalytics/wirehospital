@@ -125,9 +125,7 @@ return [
     ],
     'providers' => \Illuminate\Support\ServiceProvider::defaultProviders()->merge([
         // Package Service Providers...
-    ])->replace([
-        \Illuminate\Queue\QueueServiceProvider::class => \Gecche\Multidomain\Queue\QueueServiceProvider::class,
-    ])->merge([
+    ])->replace([])->merge([
         // Added Service Providers (Do not remove this line)...
     ])->toArray(),
 ];
