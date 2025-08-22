@@ -3,7 +3,8 @@
     <div class="container mt-5">
         <div class="row">
             <div class="col-lg-9">
-                <h2 class="mb-4">Medical History Form</h2>
+                <h5 class="card-title border-bottom pb-3">Medical History Form</h5>
+                <span class=""></span>
                 <ul class="nav nav-underline" id="medicalFormTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="complaints-tab" data-bs-toggle="tab"
