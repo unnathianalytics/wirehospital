@@ -1,11 +1,4 @@
 <?php return array (
-  'gecche/laravel-multidomain' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Gecche\\Multidomain\\Foundation\\Providers\\DomainConsoleServiceProvider',
-    ),
-  ),
   'laravel/boost' => 
   array (
     'providers' => 

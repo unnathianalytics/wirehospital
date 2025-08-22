@@ -21,6 +21,5 @@ return [
     ],
   ],
   'domains' => [
-    'wire1.test' => 'wire1.test',
   ],
  ];
